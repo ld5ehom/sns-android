@@ -22,38 +22,18 @@ import retrofit2.Retrofit
 
 class LoginActivity : ComponentActivity() {
 
-    // Retrofit instance creation for API calls
-    // API 호출을 위한 Retrofit 인스턴스 생성
-    private val retrofit = Retrofit.Builder()
-        .baseUrl("http://localhost:8080/api/")
-        .addConverterFactory(Json.asConverterFactory("application/json; charset=UTF8".toMediaType()))
-        .build()
-
-    // Login service for remote API calls
-    // 원격 API 호출을 위한 로그인 서비스
-    private val loginRetrofitService = retrofit.create(LoginRetrofitService::class.java)
-
-    // Local and remote data sources for user data
-    // 사용자 데이터를 위한 로컬 및 원격 데이터 소스
-    private val localDataSource = UserLocalDataSource(this)
-    private val remoteDataSource = UserRemoteDataSource(loginRetrofitService)
-
-    // User data repository to manage local and remote data
-    // 로컬 및 원격 데이터를 관리하는 사용자 데이터 저장소
-    private val userDataRepository = UserDataRepository(localDataSource, remoteDataSource)
-
-    // ViewModel initialization with a factory for saved state
-    // 저장된 상태를 위한 ViewModel 초기화
-    private val viewModel: LoginViewModel by viewModels {
-        object : AbstractSavedStateViewModelFactory() {
-            override fun <T : ViewModel> create(
-                key: String, modelClass: Class<T>, handle: SavedStateHandle
-            ): T {
-                return LoginViewModel(userDataRepository) as T
-            }
-
-        }
+    // Lazily initializes and retrieves the app's dependency container from the Application context.
+    // 애플리케이션 컨텍스트에서 앱의 의존성 컨테이너를 지연 초기화하여 검색함.
+    private val container by lazy {
+        (this.application as App).appContainer
     }
+
+    // Initializes the LoginViewModel using a factory from the dependency container.
+    // 의존성 컨테이너에서 팩토리를 사용하여 LoginViewModel을 초기화함.
+    private val viewModel: LoginViewModel by viewModels {
+        container.createLoginViewModelFactory()
+    }
+
 
     // Called when the activity is first created
     // 엑티비티가 처음 생성될 때 호출됨
