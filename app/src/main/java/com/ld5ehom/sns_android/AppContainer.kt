@@ -41,25 +41,8 @@ class AppContainer constructor(private val context: Context) {
         return UserRemoteDataSource(createLoginRetrofitService())
     }
 
-    // Creates a UserDataRepository by combining local and remote data sources
-    // 로컬 및 원격 데이터 소스를 결합하여 UserDataRepository 생성
-    fun createUserDataRepository(): UserDataRepository {
-        return UserDataRepository(
-            localDataSource = createUserLocalDataSource(),
-            remoteDataSource = createUserRemoteDataSource()
-        )
-    }
+    // Holds a reference to LoginContainer, initially null, for managing login-specific dependencies
+    // 로그인 특정 의존성을 관리하기 위해 처음에는 null인 LoginContainer에 대한 참조 보유
+    var loginContainer: LoginContainer? = null
 
-    // Creates a ViewModelFactory for creating LoginViewModels, handling state saving
-    // LoginViewModel 생성 및 상태 저장을 처리하는 ViewModelFactory 생성
-    fun createLoginViewModelFactory(): AbstractSavedStateViewModelFactory {
-        return object : AbstractSavedStateViewModelFactory() {
-            val repository = createUserDataRepository() // Uses UserDataRepository for ViewModel data management
-            override fun <T : ViewModel> create(
-                key: String, modelClass: Class<T>, handle: SavedStateHandle
-            ): T {
-                return LoginViewModel(repository) as T // Instantiates LoginViewModel with dependency injection // 의존성 주입으로 LoginViewModel 인스턴스화
-            }
-        }
-    }
 }

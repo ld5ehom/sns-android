@@ -31,9 +31,12 @@ import com.ld5ehom.sns_android.ui.theme.SNSTheme
 // 사용자 정보를 표시하고 관리하는 액티비티
 class UserInfoActivity : ComponentActivity() {
 
-    // Local data source for user data management
-    // 사용자 데이터 관리를 위한 로컬 데이터 소스
-    private val localDataSource = UserLocalDataSource(this)
+    // Lazily initializes and retrieves the UserLocalDataSource from the application's dependency container.
+    // 애플리케이션의 의존성 컨테이너에서 사용자 로컬 데이터 소스를 지연 초기화하여 검색함.
+    private val userLocalDataSource by lazy {
+        (application as App).appContainer.createUserLocalDataSource()
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +66,7 @@ class UserInfoActivity : ComponentActivity() {
                             // 컴포넌트가 시작될 때 로컬 데이터 소스에서 토큰을 가져오기 위한 이펙트
                             LaunchedEffect(Unit){
                                 launch {
-                                    token = localDataSource.getToken().orEmpty() // Retrieves token, defaults to empty if null // 토큰을 검색, null이면 비어 있는 것으로 기본 설정
+                                    token = userLocalDataSource.getToken().orEmpty() // Retrieves token, defaults to empty if null // 토큰을 검색, null이면 비어 있는 것으로 기본 설정
                                 }
                             }
                             // Displays the token 토큰 표시
@@ -73,7 +76,7 @@ class UserInfoActivity : ComponentActivity() {
                             // Button to log out and clear local data 로그아웃하고 로컬 데이터를 지우는 버튼
                             TextButton(onClick = {
                                 lifecycleScope.launch {
-                                    localDataSource.clear() // Clears local data
+                                    userLocalDataSource.clear() // Clears local data
                                     startActivity(Intent(this@UserInfoActivity, LoginActivity::class.java)) // Navigates to LoginActivity // LoginActivity로 이동
                                     finish() // Finishes this activity
                                 }
