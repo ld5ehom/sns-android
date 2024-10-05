@@ -31,7 +31,7 @@ class LoginActivity : ComponentActivity() {
     // Initializes the LoginViewModel using a factory from the dependency container.
     // 의존성 컨테이너에서 팩토리를 사용하여 LoginViewModel을 초기화함.
     private val viewModel: LoginViewModel by viewModels {
-        container.createLoginViewModelFactory()
+        container.loginContainer!!.createLoginViewModelFactory()
     }
 
 
@@ -39,6 +39,7 @@ class LoginActivity : ComponentActivity() {
     // 엑티비티가 처음 생성될 때 호출됨
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        container.loginContainer = LoginContainer(container)
 
         // Observes UI state and reacts to user state changes
         // UI 상태를 관찰하고 사용자 상태 변경에 반응함
@@ -82,5 +83,15 @@ class LoginActivity : ComponentActivity() {
             }
         }
     }
+
+    // Called when the Activity is being destroyed
+    // 액티비티가 파괴될 때 호출됨
+    override fun onDestroy() {
+        // Clears the login-specific container to prevent memory leaks
+        // 메모리 누수를 방지하기 위해 로그인 특정 컨테이너를 클리어함
+        container.loginContainer = null
+        super.onDestroy() // Calls the super class's onDestroy method
+    }
+
 }
 
