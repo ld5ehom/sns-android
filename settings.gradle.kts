@@ -21,3 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "sns-android"
 include(":app")
+include(":domain")
+include(":presentation")
+include(":data")
