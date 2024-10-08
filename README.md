@@ -2,7 +2,7 @@
 
 ## Project Overview 
 
-- Utilized: Kotlin, Hilt
+- Utilized: Kotlin, Hilt, MVI, Orbit, Jetpack Compose 
 
 -----
 ## Milestones
@@ -25,7 +25,7 @@
     - Transitioned from localDataSource to userLocalDataSource : This change isolates data management to specific views, thereby decluttering activities and improving code clarity.
   - **Dependency Management with LoginContainer** - [commit 3b5f3a4](https://github.com/ld5ehom/sns-android/commit/3b5f3a4cde05dfb8441d9aeac6a2c3a20f83e61f)
     - Implemented a new LoginContainer : Focuses on managing dependencies exclusively for login functionalities, which enhances resource efficiency and streamlines dependency management.
-  - **Hilt Gradle Plugin Setup**
+  - **Hilt Gradle Plugin Setup** - [commit a0bb0ff](https://github.com/ld5ehom/sns-android/commit/a0bb0ffbbeb2ec548b3a3d13e6be78e15c5a507a)
     - Set up Hilt for dependency injection
       - Added Hilt Gradle plugin and related libraries in build.gradle 
       - Configured Hilt for dependency injection
@@ -46,6 +46,11 @@
       - Domain: No external dependencies (Core module) 
       - Presentation: Depends on Domain module
       - Data: Depends on Domain module  
+  - **Gradle Configuration Updates for Dependency Injection and Compatibility**
+    - Added kotlin-kapt to enable annotation processing for Kotlin.(build.gradle.kts(project: sns-android))
+    - Integrated it with Hilt for dependency injection and configured kapt to correct error types during compilation.
+    - The Gradle file for the Presentation module(build.gradle.kts(Module: presentation)) was updated to include Hilt for dependency injection and enable Jetpack Compose. 
+    - Kotlin and Java 17 compatibility were configured, and the Domain module was added as a dependency.
 
 -----
 ## Progress Tracking

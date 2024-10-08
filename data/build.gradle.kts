@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.hilt)
+    id("kotlin-kapt")
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -43,4 +46,8 @@ dependencies {
 
     // domain
     implementation(project(":domain"))
+
+    // hilt
+    implementation(libs.hilt)
+    kapt(libs.hilt.compiler)
 }
