@@ -6,7 +6,7 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
     id("kotlin-kapt")  // kapt
-    id("com.google.dagger.hilt.android") // Hilt
+    alias(libs.plugins.hilt) // Hilt
 }
 
 android {
@@ -89,7 +89,7 @@ dependencies {
     implementation(libs.okhttp)
 
     // Hilt
-    implementation("com.google.dagger:hilt-android:2.48.1")
-    kapt("com.google.dagger:hilt-android-compiler:2.48.1")
+    implementation(libs.hilt)
+    kapt(libs.hilt.compiler)
 
 }
