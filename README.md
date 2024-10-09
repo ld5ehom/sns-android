@@ -46,11 +46,15 @@
       - Domain: No external dependencies (Core module) 
       - Presentation: Depends on Domain module
       - Data: Depends on Domain module  
-  - **Gradle Configuration Updates for Dependency Injection and Compatibility**
+  - **Gradle Configuration Updates for Dependency Injection and Compatibility**  [commit ab11cd2](https://github.com/ld5ehom/sns-android/commit/ab11cd270b26e1a553f8420645388177588435a5)
     - Added kotlin-kapt to enable annotation processing for Kotlin.(build.gradle.kts(project: sns-android))
     - Integrated it with Hilt for dependency injection and configured kapt to correct error types during compilation.
     - The Gradle file for the Presentation module(build.gradle.kts(Module: presentation)) was updated to include Hilt for dependency injection and enable Jetpack Compose. 
     - Kotlin and Java 17 compatibility were configured, and the Domain module was added as a dependency.
+  - **Custom Theme Setup** 
+    - Defines a color scheme using lightColorScheme with primary, surface, and background colors.
+    - Uses SNSTheme to apply the theme, adjust the status bar color, and manage light/dark mode based on system settings.
+
 
 -----
 ## Progress Tracking
