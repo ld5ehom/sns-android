@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.ld5ehom.sns_android.ui.theme.SNSTheme
+import com.ld5ehom.presentation.theme.SNSTheme
 
 /**
  * @author Taewook.ok
