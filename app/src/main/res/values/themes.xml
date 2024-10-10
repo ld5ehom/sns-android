@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.SNS" parent="android:Theme.Material.Light.NoActionBar" />
+    <!-- Changed the parent theme to @style/Theme.AppCompat.NoActionBar to remove the action bar from the app -->
+    <!-- 앱에서 액션바를 제거하기 위해 상위 테마를 @style/Theme.AppCompat.NoActionBar로 변경 -->
+    <style name="Theme.SNS" parent="@style/Theme.AppCompat.NoActionBar" />
 </resources>

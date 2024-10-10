@@ -46,14 +46,25 @@
       - Domain: No external dependencies (Core module) 
       - Presentation: Depends on Domain module
       - Data: Depends on Domain module  
-  - **Gradle Configuration Updates for Dependency Injection and Compatibility**  [commit ab11cd2](https://github.com/ld5ehom/sns-android/commit/ab11cd270b26e1a553f8420645388177588435a5)
+  - **Gradle Configuration Updates for Dependency Injection and Compatibility** - [commit ab11cd2](https://github.com/ld5ehom/sns-android/commit/ab11cd270b26e1a553f8420645388177588435a5)
     - Added kotlin-kapt to enable annotation processing for Kotlin.(build.gradle.kts(project: sns-android))
     - Integrated it with Hilt for dependency injection and configured kapt to correct error types during compilation.
     - The Gradle file for the Presentation module(build.gradle.kts(Module: presentation)) was updated to include Hilt for dependency injection and enable Jetpack Compose. 
     - Kotlin and Java 17 compatibility were configured, and the Domain module was added as a dependency.
-  - **Custom Theme Setup** 
+  - **Custom Theme Setup** - [commit 8f62f55](https://github.com/ld5ehom/sns-android/commit/8f62f55baff6d95d37fe4949e436898da5cbc659)
     - Defines a color scheme using lightColorScheme with primary, surface, and background colors.
     - Uses SNSTheme to apply the theme, adjust the status bar color, and manage light/dark mode based on system settings.
+  - **Login Domain and Module Refactoring**
+    - Relocating Activity Declaration to Presentation Module 
+      - Moved the LoginActivity declaration from the app module's manifest to the presentation module's manifest to better organize the activity within the appropriate feature module.
+    - Login Module Refactor and File Separation
+      - Removed the existing login files and refactored the code by separating concerns into distinct components or modules for better organization and maintainability.
+    - app/src/main/res/values/themes.xml
+      -  Changed the parent theme to @style/Theme.AppCompat.NoActionBar to remove the action bar from the app
+    - domain/LoginUseCase and SignUpUseCase
+      - Implemented LoginUseCase and SignUpUseCase interfaces to handle authentication logic, each returning a token based on user credentials.
+
+
 
 
 -----
