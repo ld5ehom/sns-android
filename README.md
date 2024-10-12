@@ -54,7 +54,7 @@
   - **Custom Theme Setup** - [commit 8f62f55](https://github.com/ld5ehom/sns-android/commit/8f62f55baff6d95d37fe4949e436898da5cbc659)
     - Defines a color scheme using lightColorScheme with primary, surface, and background colors.
     - Uses SNSTheme to apply the theme, adjust the status bar color, and manage light/dark mode based on system settings.
-  - **Login Domain and Module Refactoring**
+  - **Login Domain and Module Refactoring** - [commit 52e62c7](https://github.com/ld5ehom/sns-android/commit/52e62c794ece91ade61595435f01a33f05331b80)
     - Relocating Activity Declaration to Presentation Module 
       - Moved the LoginActivity declaration from the app module's manifest to the presentation module's manifest to better organize the activity within the appropriate feature module.
     - Login Module Refactor and File Separation
@@ -63,7 +63,18 @@
       -  Changed the parent theme to @style/Theme.AppCompat.NoActionBar to remove the action bar from the app
     - domain/LoginUseCase and SignUpUseCase
       - Implemented LoginUseCase and SignUpUseCase interfaces to handle authentication logic, each returning a token based on user credentials.
-
+  - **Initial Build of Authentication UI**
+    - presentation/Login/WelcomeScreen 
+      - Designed a WelcomeScreen composable with a title, subtitle, and a button that navigates to the login screen, including a preview for testing the layout.
+    - presentation/Login/LoginScreen
+      - Designed a LoginScreen composable with input fields for ID and password, and a button to trigger the login action. The screen includes a navigation link to the sign-up screen and a preview for layout testing.
+    - presentation/SignUp/SignUpScreen
+      - Created a SignUpScreen composable with input fields for ID, username, and two password fields, along with a button to initiate the sign-up process. The screen also includes a preview for testing the layout.
+    - presentation/Components/Buttons
+      - Implemented custom FCButton and CustomButton components with configurable text and click actions, allowing them to be reused across the app's UI.
+    - presentation/Components/TextFields
+      - Built reusable CustomTextField components for user input, which are used in both the login and sign-up screens to handle input for ID, username, and passwords.
+    
 
 
 
