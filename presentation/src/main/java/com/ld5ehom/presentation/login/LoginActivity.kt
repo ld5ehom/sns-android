@@ -4,9 +4,11 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import com.ld5ehom.presentation.theme.SNSTheme
+import dagger.hilt.android.AndroidEntryPoint
 
 // LoginActivity class that sets up the login UI
 // 로그인 UI를 설정하는 LoginActivity 클래스
+@AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
