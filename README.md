@@ -74,7 +74,7 @@
       - Implemented custom FCButton and CustomButton components with configurable text and click actions, allowing them to be reused across the app's UI.
     - presentation/Components/TextFields
       - Built reusable CustomTextField components for user input, which are used in both the login and sign-up screens to handle input for ID, username, and passwords.
-  - **Login Flow Update with Hilt and Navigation Component(presentation)**
+  - **Login Flow Update with Hilt and Navigation Component(presentation)** - [commit 5b702af](https://github.com/ld5ehom/sns-android/commit/5b702af4ce9659030e6f86972d5e7ed079a64d56)
     - Organizing Login Flow with Hilt and Navigation Compose
       - Since the login process is part of a single context, the navigation component was used to group it into one flow. Hilt and Navigation Compose were integrated to manage dependencies and navigation within the login flow.
     - Added Navigation and Hilt Integration (gradle : presentation)
@@ -87,6 +87,22 @@
       - LoginActivity sets up the login UI using Jetpack Compose, applies the SNSTheme, and manages navigation between login-related screens (WelcomeScreen, LoginScreen, and SignUpScreen) via LoginNavHost for a cohesive login flow.
     - LoginViewModel with Hilt and Coroutines
       - The LoginViewModel handles the login logic using Hilt for dependency injection. It integrates the LoginUseCase to manage the login process, and uses viewModelScope to launch coroutines, ensuring that login operations are performed asynchronously when the user clicks the login button.
+  - **LoginViewModel Refactoring and Error Fixes with Dagger and Orbit MVI**
+    - Error : Dagger Missing binding 
+      - The Login ViewModel requested the LoginUseCase, but the LoginUseCase implementation was not bound to the Hilt graph, causing an error.
+      - To resolve this, the LoginUseCaseImpl was bound in the data module, considering the login functionality.
+    - Error : LoginActivity Implement interface dagger.hilt 
+      - The error occurred in presentation/login/LoginActivity requiring the implementation of a Dagger Hilt interface.
+      - Added @AndroidEntryPoint to LoginActivity.
+    - data/usecase/LoginUseCaseImpl 
+      - LoginUseCaseImpl uses Dagger's @Inject for dependency injection, and the invoke function returns a token within a result.
+    - Refactoring LoginViewModel with Orbit MVI and State Management
+      - The LoginViewModel has been refactored to enhance state management and handle side effects more effectively using the Orbit MVI (Model-View-Intent) pattern. This update improves the structure of the login feature by managing user input, login logic, and error handling in a clearer and more maintainable way.
+      - Integrated Orbit MVI Pattern: LoginViewModel now implements ContainerHost to manage login state (LoginState) and side effects (LoginSideEffect), providing clear state management.
+      - Added LoginState: LoginState now holds the login credentials (ID, password), enabling cleaner and more predictable state updates.
+      - Introduced Side Effect Handling: LoginSideEffect manages UI-related actions like showing toast messages, keeping business logic separate from the UI.
+      - Improved Error Handling: A CoroutineExceptionHandler now handles login errors, showing error messages via side effects.
+      - Input Handling Updates: Added onIdChange and onPasswordChange to update state when user input changes.
 
 
 **Task 2. Profile Page**
