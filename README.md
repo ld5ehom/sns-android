@@ -63,7 +63,7 @@
       -  Changed the parent theme to @style/Theme.AppCompat.NoActionBar to remove the action bar from the app
     - domain/LoginUseCase and SignUpUseCase
       - Implemented LoginUseCase and SignUpUseCase interfaces to handle authentication logic, each returning a token based on user credentials.
-  - **Initial Build of Authentication UI**
+  - **Initial Build of Authentication UI** - [commit 748dfb3](https://github.com/ld5ehom/sns-android/commit/748dfb3b794946b617dca82796ebde6a4fd9194e)
     - presentation/Login/WelcomeScreen 
       - Designed a WelcomeScreen composable with a title, subtitle, and a button that navigates to the login screen, including a preview for testing the layout.
     - presentation/Login/LoginScreen
@@ -74,7 +74,37 @@
       - Implemented custom FCButton and CustomButton components with configurable text and click actions, allowing them to be reused across the app's UI.
     - presentation/Components/TextFields
       - Built reusable CustomTextField components for user input, which are used in both the login and sign-up screens to handle input for ID, username, and passwords.
-    
+  - **Login Flow Update with Hilt and Navigation Component(presentation)**
+    - Organizing Login Flow with Hilt and Navigation Compose
+      - Since the login process is part of a single context, the navigation component was used to group it into one flow. Hilt and Navigation Compose were integrated to manage dependencies and navigation within the login flow.
+    - Added Navigation and Hilt Integration (gradle : presentation)
+      - Integrated navigation-compose and hilt-navigation-compose dependencies in the presentation module to manage navigation and dependency injection within the composable screens.
+    - Login Navigation Host (LoginNavHost)
+      - Created a host that manages three composables (LoginScreen, SignUpScreen, WelcomeScreen) within a single context, allowing seamless navigation between them.
+    - Login Route (LoginRoute)
+      - Instead of hardcoding route names directly in the composables, a LoginRoute sealed class was created to store and reference route names in a centralized and organized way, making them easier to manage and reducing errors. 
+    - LoginActivity with Navigation and Theming
+      - LoginActivity sets up the login UI using Jetpack Compose, applies the SNSTheme, and manages navigation between login-related screens (WelcomeScreen, LoginScreen, and SignUpScreen) via LoginNavHost for a cohesive login flow.
+    - LoginViewModel with Hilt and Coroutines
+      - The LoginViewModel handles the login logic using Hilt for dependency injection. It integrates the LoginUseCase to manage the login process, and uses viewModelScope to launch coroutines, ensuring that login operations are performed asynchronously when the user clicks the login button.
+
+
+**Task 2. Profile Page**
+- **Issues** :
+- Create a screen to display and edit user profile information.
+
+**Task 3: Post Creation**
+- **Issues** :
+- Develop functionality for users to create and submit new posts.
+
+**Task 4: Post List Screen**
+- **Issues** :
+- Build a screen that displays a list of posts in a feed or timeline format.
+
+**Task 5: Comments**
+- **Issues** :
+- Implement a feature that allows users to view and add comments on posts.
+
 
 
 
