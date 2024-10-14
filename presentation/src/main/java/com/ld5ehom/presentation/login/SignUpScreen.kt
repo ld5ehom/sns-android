@@ -1,5 +1,6 @@
 package com.ld5ehom.presentation.login
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -13,11 +14,49 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ld5ehom.presentation.component.CustomButton
 import com.ld5ehom.presentation.component.CustomTextField
 import com.ld5ehom.presentation.theme.SNSTheme
+import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.compose.collectSideEffect
+
+@Composable
+fun SignUpScreen(
+    viewModel: SignUpViewModel = hiltViewModel(),  // SignUpViewModel provided by Hilt
+    onNavigateToLoginScreen: () -> Unit  // Lambda function to handle navigation to the login screen
+) {
+    // Collect the current state from the ViewModel
+    val state = viewModel.collectAsState().value
+
+    // Get the current context for displaying Toast messages
+    val context = LocalContext.current
+
+    // Handle side effects such as showing Toast messages or navigating to the login screen
+    viewModel.collectSideEffect { sideEffect ->
+        when(sideEffect) {
+            is SignUpSideEffect.Toast -> Toast.makeText(context, sideEffect.message, Toast.LENGTH_SHORT).show()
+            SignUpSideEffect.NavigateToLoginScreen -> onNavigateToLoginScreen()  // Navigate to the login screen on successful sign-up
+        }
+    }
+
+    // Render the SignUpScreen with the current state and event handlers
+    SignUpScreen(
+        id = state.id,
+        username = state.username,
+        password1 = state.password,
+        password2 = state.repeatPassword,
+        onIdChange = viewModel::onIdChange,
+        onUsernameChange = viewModel::onUsernameChange,
+        onPassword1Change = viewModel::onPasswordChange,
+        onPassword2Change = viewModel::onRepeatPasswordChange,
+        onSignUpClick = viewModel::onSignUpClick
+    )
+}
 
 @Composable
 fun SignUpScreen(
@@ -78,8 +117,7 @@ fun SignUpScreen(
                 CustomTextField(
                     modifier = Modifier
                         .padding(top = 8.dp)
-                        .fillMaxWidth()
-                    ,
+                        .fillMaxWidth(),
                     value = id,
                     onValueChange = onIdChange
                 )
@@ -93,8 +131,7 @@ fun SignUpScreen(
                 CustomTextField(
                     modifier = Modifier
                         .padding(top = 8.dp)
-                        .fillMaxWidth()
-                    ,
+                        .fillMaxWidth(),
                     value = username,
                     onValueChange = onUsernameChange
                 )
@@ -108,9 +145,9 @@ fun SignUpScreen(
                 CustomTextField(
                     modifier = Modifier
                         .padding(top = 8.dp)
-                        .fillMaxWidth()
-                    ,
+                        .fillMaxWidth(),
                     value = password1,
+                    visualTransformation = PasswordVisualTransformation(),
                     onValueChange = onPassword1Change
                 )
 
@@ -123,15 +160,16 @@ fun SignUpScreen(
                 CustomTextField(
                     modifier = Modifier
                         .padding(top = 8.dp)
-                        .fillMaxWidth()
-                    ,
+                        .fillMaxWidth(),
                     value = password2,
+                    visualTransformation = PasswordVisualTransformation(),
                     onValueChange = onPassword2Change
                 )
 
                 // Sign up button
                 CustomButton(
-                    modifier = Modifier.padding(vertical = 24.dp)
+                    modifier = Modifier
+                        .padding(vertical = 24.dp)
                         .fillMaxWidth(),
                     text = "Sign up",
                     onClick = onSignUpClick

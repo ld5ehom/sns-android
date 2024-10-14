@@ -1,5 +1,6 @@
 package com.ld5ehom.presentation.login
 
+import android.content.Intent
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -30,7 +31,8 @@ import org.orbitmvi.orbit.compose.collectSideEffect
 @Composable
 // Login View Model
 fun LoginScreen(
-    viewModel: LoginViewModel = hiltViewModel()
+    viewModel: LoginViewModel = hiltViewModel(),
+    onNavigateToSignUpScreen:() -> Unit,
 ) {
     // Collects the current state from the ViewModel  (ViewModel에서 현재 상태를 수집)
     val state : LoginState = viewModel.collectAsState().value
@@ -51,7 +53,7 @@ fun LoginScreen(
         password = state.password,
         onIdChange = viewModel::onIdChange,
         onPasswordChange = viewModel::onPasswordChange,
-        onNavigateToSignUpScreen = {},  // Handles navigation to the sign-up screen (회원가입 화면으로 이동 처리)
+        onNavigateToSignUpScreen = onNavigateToSignUpScreen,  // Handles navigation to the sign-up screen (회원가입 화면으로 이동 처리)
         onLoginClick = viewModel::onLoginClick  // Handles login action (로그인 버튼 클릭 처리)
     )
 }
