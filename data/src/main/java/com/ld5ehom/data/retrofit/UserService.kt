@@ -9,7 +9,7 @@ import retrofit2.http.POST
 interface UserService {
 
     @POST("users/login")
-    @Headers("Content-Type:application/json; charset=UTF8")
+    @Headers("Content-Type:application/json; charset=UTF8") // HTTP 500 error
     suspend fun login(
         @Body requestBody: RequestBody  // parameter
     ):CommonResponse<String>
