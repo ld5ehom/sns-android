@@ -132,9 +132,20 @@
 
 **Task 2. Sign Up Page**
 - **Issues** : [task-2-signup](https://github.com/ld5ehom/sns-android/tree/task-2-signup)
+- **Details** :
+  - SignUp Process Updates: State Management, Navigation, and Error Handling
+    - Added navigation functionality from LoginScreen to SignUpScreen.
+    - SignUpViewModel: State Management and Side Effects with Orbit MVI
+      - Handles the sign-up process using SignUpUseCase with Orbit MVI for state management and side effects. User inputs such as id, username, password, and repeatPassword are updated in the state, and any errors during the process are handled with a toast side effect.
+    - SignUpScreen Update: Added Navigation and Side-Effect Handling
+      - SignUpScreen: Integrated side-effect handling to display toast messages for errors and navigate to the login screen upon successful sign-up. The screen now collects user input (id, username, password) and reflects changes through the SignUpViewModel.
+    - Login Navigation Host Update
+      - Updated the navigation flow to allow users to navigate from the SignUpScreen to the LoginScreen after successful sign-up.
+
 
 **Task 3. Logout Page**
 - **Issues** :
+- **Details** :
 
 **Task 4. Profile Page**
 - **Issues** :
@@ -157,6 +168,6 @@
 
 -----
 ## Progress Tracking
-- **Overall Progress** : Task 1 In Progress
+- **Overall Progress** : Task 2 In Progress
 
 

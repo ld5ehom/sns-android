@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navOptions
 
 @Composable
 fun LoginNavHost() {
@@ -30,23 +31,29 @@ fun LoginNavHost() {
         // Define the composable for LoginScreen
         composable(route = LoginRoute.LoginScreen.name) {
             // Show the login screen (로그인 화면 표시)
-            LoginScreen()
+            LoginScreen(
+                onNavigateToSignUpScreen = {
+                    navController.navigate(LoginRoute.SignUpScreen.name)
+                }
+            )
         }
 
         // Define the composable for SignUpScreen
         composable(route = LoginRoute.SignUpScreen.name) {
             SignUpScreen(
-                id = "ld5ehom",
-                username = "Taewook",
-                password1 = "206128807",
-                password2 = "206128807",
-                onIdChange = {},
-                onUsernameChange = {},
-                onPassword1Change = {},
-                onPassword2Change = {}
-            ) {
-                // Add actions for sign-up click if necessary (회원가입 버튼 클릭 시 추가 작업)
-            }
+                // Lambda function for navigating to the login screen after successful sign-up
+                onNavigateToLoginScreen = {
+                    // Use navController to navigate to the LoginScreen
+                    navController.navigate(
+                        route = LoginRoute.LoginScreen.name,
+                        navOptions = navOptions {
+                            // Removes the WelcomeScreen from the back stack to prevent navigating back to it
+                            popUpTo(LoginRoute.WelcomeScreen.name)
+                        }
+                    )
+                }
+            )
         }
+
     }
 }
