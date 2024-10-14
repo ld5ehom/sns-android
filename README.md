@@ -87,7 +87,7 @@
       - LoginActivity sets up the login UI using Jetpack Compose, applies the SNSTheme, and manages navigation between login-related screens (WelcomeScreen, LoginScreen, and SignUpScreen) via LoginNavHost for a cohesive login flow.
     - LoginViewModel with Hilt and Coroutines
       - The LoginViewModel handles the login logic using Hilt for dependency injection. It integrates the LoginUseCase to manage the login process, and uses viewModelScope to launch coroutines, ensuring that login operations are performed asynchronously when the user clicks the login button.
-  - **LoginViewModel Refactoring and Error Fixes with Dagger and Orbit MVI**
+  - **LoginViewModel Refactoring and Error Fixes with Dagger and Orbit MVI** - [commit 2258ba2](https://github.com/ld5ehom/sns-android/commit/2258ba23aba26418981cff0cf2e4b274a9e9ece3)
     - Error : Dagger Missing binding 
       - The Login ViewModel requested the LoginUseCase, but the LoginUseCase implementation was not bound to the Hilt graph, causing an error.
       - To resolve this, the LoginUseCaseImpl was bound in the data module, considering the login functionality.
@@ -103,6 +103,19 @@
       - Introduced Side Effect Handling: LoginSideEffect manages UI-related actions like showing toast messages, keeping business logic separate from the UI.
       - Improved Error Handling: A CoroutineExceptionHandler now handles login errors, showing error messages via side effects.
       - Input Handling Updates: Added onIdChange and onPasswordChange to update state when user input changes.
+  - **Login Feature Updates: Password Masking, Orbit MVI Integration, and Retrofit Setup** 
+    - CustomTextField Update for Password Masking
+      - Password Masking Added: visualTransformation was added to hide text input for password fields using PasswordVisualTransformation.
+    - Enhancements in LoginScreen with Orbit MVI Integration
+      - Orbit MVI for State and Side-Effect Management:
+        - Integrated Orbit MVI for managing state and side effects. The collectAsState function is utilized to capture login credentials (id, password), and collectSideEffect manages side effects such as toast messages through LoginSideEffect.Toast.
+      - Improved Input Handling and Event Triggering:
+        - Added PasswordVisualTransformation to the password field for secure input handling. The login button now triggers onLoginClick in the LoginViewModel, linking UI actions to the ViewModel’s business logic.
+    - RetrofitModule: Integrated OkHttpClient and JSON Converter for API Requests
+      - OkHttpClient: Provides an OkHttpClient instance bound to the Dagger dependency graph to handle network requests. 
+      - Retrofit Configuration: Configures Retrofit with kotlinx.serialization for JSON conversion, ignoring unknown keys during deserialization for flexibility. The API's base URL is set to the ld5ehom_HOST, and the OkHttpClient is attached for managing HTTP requests.
+
+
 
 
 **Task 2. Profile Page**
