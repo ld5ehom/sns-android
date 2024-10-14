@@ -1,5 +1,6 @@
 package com.ld5ehom.presentation.login
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -21,20 +24,38 @@ import com.ld5ehom.presentation.component.CustomButton
 import com.ld5ehom.presentation.component.CustomTextField
 import com.ld5ehom.presentation.theme.SNSTheme
 import com.ld5ehom.presentation.theme.*
+import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
 // Login View Model
 fun LoginScreen(
-    viewModel:LoginViewModel = hiltViewModel()
+    viewModel: LoginViewModel = hiltViewModel()
 ) {
+    // Collects the current state from the ViewModel  (ViewModel에서 현재 상태를 수집)
+    val state : LoginState = viewModel.collectAsState().value
+
+    // Gets the current context to display toast messages  (토스트 메시지를 표시하기 위해 현재 Context를 가져옴)
+    val context = LocalContext.current
+
+    // Collects side effects (e.g., showing a toast message)
+    viewModel.collectSideEffect { sideEffect ->
+        when (sideEffect) {
+            is LoginSideEffect.Toast -> Toast.makeText(context, sideEffect.message, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    // Pass the state and event handlers to the composable function (상태와 이벤트 핸들러를 Composable 함수로 전달)
     LoginScreen(
-        id = "",
-        password = "",
-        onIdChange = {},
-        onPasswordChange = {},
-        onNavigateToSignUpScreen = viewModel::onLoginClick
+        id = state.id,
+        password = state.password,
+        onIdChange = viewModel::onIdChange,
+        onPasswordChange = viewModel::onPasswordChange,
+        onNavigateToSignUpScreen = {},  // Handles navigation to the sign-up screen (회원가입 화면으로 이동 처리)
+        onLoginClick = viewModel::onLoginClick  // Handles login action (로그인 버튼 클릭 처리)
     )
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun LoginScreen(
@@ -42,7 +63,8 @@ private fun LoginScreen(
     password: String,
     onIdChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
-    onNavigateToSignUpScreen: () -> Unit // Sign-up screen navigation handler
+    onNavigateToSignUpScreen: () -> Unit,
+    onLoginClick: () -> Unit,
 ) {
     // Surface for the login screen UI
     Surface {
@@ -107,6 +129,7 @@ private fun LoginScreen(
                         .padding(top = 8.dp)
                         .fillMaxWidth(),
                     value = password,
+                    visualTransformation = PasswordVisualTransformation(), // Password Masking
                     onValueChange = onPasswordChange // Password input change handler (비밀번호 입력 변경 처리기)
                 )
 
@@ -116,7 +139,7 @@ private fun LoginScreen(
                         .padding(top = 24.dp)
                         .fillMaxWidth(),
                     text = "Login",
-                    onClick = {} // Log in action handler
+                    onClick = onLoginClick // Log in action handler
                 )
 
                 // Spacer to push content to the bottom (내용을 하단으로 밀기 위한 Spacer)
@@ -146,7 +169,8 @@ private fun LoginScreenPreview() {
             password = "Park",
             onIdChange = {},
             onPasswordChange = {},
-            onNavigateToSignUpScreen = {}
+            onNavigateToSignUpScreen = {},
+            onLoginClick = {}
         )
     }
 }
