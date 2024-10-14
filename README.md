@@ -103,7 +103,7 @@
       - Introduced Side Effect Handling: LoginSideEffect manages UI-related actions like showing toast messages, keeping business logic separate from the UI.
       - Improved Error Handling: A CoroutineExceptionHandler now handles login errors, showing error messages via side effects.
       - Input Handling Updates: Added onIdChange and onPasswordChange to update state when user input changes.
-  - **Login Feature Updates: Password Masking, Orbit MVI Integration, and Retrofit Setup** 
+  - **Login Feature Updates: Password Masking, Orbit MVI Integration, and Retrofit Setup** - [commit 13f4a3e](https://github.com/ld5ehom/sns-android/commit/13f4a3e1e5d607da72b734bdc1905d40562784ac)
     - CustomTextField Update for Password Masking
       - Password Masking Added: visualTransformation was added to hide text input for password fields using PasswordVisualTransformation.
     - Enhancements in LoginScreen with Orbit MVI Integration
@@ -114,23 +114,36 @@
     - RetrofitModule: Integrated OkHttpClient and JSON Converter for API Requests
       - OkHttpClient: Provides an OkHttpClient instance bound to the Dagger dependency graph to handle network requests. 
       - Retrofit Configuration: Configures Retrofit with kotlinx.serialization for JSON conversion, ignoring unknown keys during deserialization for flexibility. The API's base URL is set to the ld5ehom_HOST, and the OkHttpClient is attached for managing HTTP requests.
+  - **Standardized API Interaction with Retrofit and CommonResponse**
+    - data/retrofit/UserService 
+      - An interface that defines network requests using Retrofit for handling API calls (Post, Get methods, etc.).
+    - data/model/CommonResponse
+      - CommonResponse is a generic data class in data/model used to standardize API responses. It includes fields for result status, data, and error details to ensure consistent handling of API responses.
+    - RetrofitModule Update: Providing UserService for API Calls
+      - UserService Update: An update was made in RetrofitModule to provide an instance of UserService using Retrofit. This allows UserService to be injected and utilized across the application for making API requests.
 
 
 
 
-**Task 2. Profile Page**
+**Task 2. Sign Up**
+- **Issues** :
+
+**Task 3. Logout**
+- **Issues** :
+
+**Task 4. Profile Page**
 - **Issues** :
 - Create a screen to display and edit user profile information.
 
-**Task 3: Post Creation**
+**Task 5: Post Creation**
 - **Issues** :
 - Develop functionality for users to create and submit new posts.
 
-**Task 4: Post List Screen**
+**Task 6: Post List Screen**
 - **Issues** :
 - Build a screen that displays a list of posts in a feed or timeline format.
 
-**Task 5: Comments**
+**Task 7: Comments**
 - **Issues** :
 - Implement a feature that allows users to view and add comments on posts.
 

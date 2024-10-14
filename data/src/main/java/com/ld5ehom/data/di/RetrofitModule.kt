@@ -6,6 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
+import com.ld5ehom.data.retrofit.UserService
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -41,4 +42,9 @@ class RetrofitModule {
             .build()
     }
 
+    // Provides the UserService instance by creating it through Retrofit
+    @Provides
+    fun provideUserService(retrofit: Retrofit): UserService {  // Creates and binds UserService using Retrofit for API requests
+        return retrofit.create(UserService::class.java)
+    }
 }
