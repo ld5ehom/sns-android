@@ -67,7 +67,27 @@ class SignUpViewModel @Inject constructor(
 
     // Handles the sign-up button click event
     fun onSignUpClick() = intent {
-        signUpUseCase
+        // Checks if the password and repeat password match, if not, shows a toast message
+        // (비밀번호와 확인 비밀번호가 일치하지 않으면 토스트 메시지 표시)
+        if(state.password != state.repeatPassword){
+            postSideEffect(SignUpSideEffect.Toast(message = "Please check your password again."))
+            return@intent
+        }
+
+        // Executes the sign-up use case and checks if the sign-up was successful
+        // (회원가입 유즈케이스를 실행하고 성공 여부를 확인)
+        val isSuccessful = signUpUseCase(
+            id = state.id,
+            username = state.username,
+            password = state.password
+        ).getOrThrow()
+
+        // If successful, navigates to the login screen and shows a success message
+        // (성공하면 로그인 화면으로 이동하고 성공 메시지 표시)
+        if(isSuccessful){
+            postSideEffect(SignUpSideEffect.NavigateToLoginScreen)
+            postSideEffect(SignUpSideEffect.Toast("Sign-up successful"))
+        }
     }
 }
 

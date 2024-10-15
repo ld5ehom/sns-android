@@ -5,7 +5,9 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import com.ld5ehom.data.usecase.LoginUseCaseImpl
+import com.ld5ehom.data.usecase.SignUpUseCaseImpl
 import com.ld5ehom.domain.usecase.login.LoginUseCase
+import com.ld5ehom.domain.usecase.login.SignUpUseCase
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -17,4 +19,9 @@ abstract class UserModule {
     // Binds LoginUseCaseImpl to the LoginUseCase interface
     // (LoginUseCaseImpl을 LoginUseCase 인터페이스에 바인딩)
     abstract fun bindLoginUseCase(uc: LoginUseCaseImpl): LoginUseCase
+
+    @Binds
+    // Binds SignUpUseCaseImpl to the SignUpUseCase interface
+    abstract fun bindSignUpUseCase(uc: SignUpUseCaseImpl):SignUpUseCase
+
 }
