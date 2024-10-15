@@ -10,5 +10,5 @@ interface SignUpUseCase {
         id:String,
         username:String,
         password:String
-    ):Result<Unit>
+    ):Result<Boolean>
 }

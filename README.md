@@ -133,14 +133,28 @@
 **Task 2. Sign Up Page**
 - **Issues** : [task-2-signup](https://github.com/ld5ehom/sns-android/tree/task-2-signup)
 - **Details** :
-  - SignUp Process Updates: State Management, Navigation, and Error Handling
+  - **SignUp Process Updates: State Management, Navigation, and Error Handling** - [commit 45b49ed](https://github.com/ld5ehom/sns-android/commit/45b49edd90d4bca2c2997f3879e2ff8d4b2a84bc)
     - Added navigation functionality from LoginScreen to SignUpScreen.
     - SignUpViewModel: State Management and Side Effects with Orbit MVI
-      - Handles the sign-up process using SignUpUseCase with Orbit MVI for state management and side effects. User inputs such as id, username, password, and repeatPassword are updated in the state, and any errors during the process are handled with a toast side effect.
+      - Handles the sign-up process using SignUpUseCase with Orbit MVI for state management and side effects. 
+      - User inputs such as id, username, password, and repeatPassword are updated in the state, and any errors during the process are handled with a toast side effect.
     - SignUpScreen Update: Added Navigation and Side-Effect Handling
-      - SignUpScreen: Integrated side-effect handling to display toast messages for errors and navigate to the login screen upon successful sign-up. The screen now collects user input (id, username, password) and reflects changes through the SignUpViewModel.
+      - SignUpScreen: Integrated side-effect handling to display toast messages for errors and navigate to the login screen upon successful sign-up. 
+      - The screen now collects user input (id, username, password) and reflects changes through the SignUpViewModel.
     - Login Navigation Host Update
       - Updated the navigation flow to allow users to navigate from the SignUpScreen to the LoginScreen after successful sign-up.
+  - **Sign-Up Feature Updates: Use Case, API Integration, and Data Model**
+    - SignUpUseCaseImpl(Sign-Up UseCase Implementation): Handling User Registration via UserService
+      - The SignUpUseCaseImpl class manages user registration by creating a SignUpParam object, converting it to a JSON RequestBody, and sending it through userService.signUp(). 
+      - It then checks if the API response is "SUCCESS" and returns the result.
+    - data/UserService update: Added Sign-Up API Integration
+      - Added a signUp method to the UserService interface, which sends a POST request to the "users/sign-up" endpoint with a JSON RequestBody. 
+      - The method returns a CommonResponse<Long> to handle the server's response for the sign-up process.
+    - data/SignUpParam: Data Model for Sign-Up API Request
+      - SignUpParam is a serializable data class that holds the parameters required for the user sign-up API request, including loginId, name, password, extraUserInfo, and profileFilePath. 
+      - It includes a toRequestBody function to convert the data into a JSON-formatted RequestBody for the API request.
+    - data/UserModule Update
+      - Binds SignUpUseCaseImpl to the SignUpUseCase interface
 
 
 **Task 3. Logout Page**
