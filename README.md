@@ -133,7 +133,7 @@
 **Task 2. Sign Up Page**
 - **Issues** : [task-2-signup](https://github.com/ld5ehom/sns-android/tree/task-2-signup)
 - **Details** :
-  - **SignUp Process Updates: State Management, Navigation, and Error Handling** - [commit 45b49ed](https://github.com/ld5ehom/sns-android/commit/45b49edd90d4bca2c2997f3879e2ff8d4b2a84bc)
+  - **Sign-Up Process Updates: State Management, Navigation, and Error Handling** - [commit 45b49ed](https://github.com/ld5ehom/sns-android/commit/45b49edd90d4bca2c2997f3879e2ff8d4b2a84bc)
     - Added navigation functionality from LoginScreen to SignUpScreen.
     - SignUpViewModel: State Management and Side Effects with Orbit MVI
       - Handles the sign-up process using SignUpUseCase with Orbit MVI for state management and side effects. 
@@ -143,7 +143,7 @@
       - The screen now collects user input (id, username, password) and reflects changes through the SignUpViewModel.
     - Login Navigation Host Update
       - Updated the navigation flow to allow users to navigate from the SignUpScreen to the LoginScreen after successful sign-up.
-  - **Sign-Up Feature Updates: Use Case, API Integration, and Data Model**
+  - **Sign-Up Process Updates: Use Case, API Integration, and Data Model** - [commit af807da](https://github.com/ld5ehom/sns-android/commit/af807dae3069211c8c5bd47d4eec129fa38cd26d)
     - SignUpUseCaseImpl(Sign-Up UseCase Implementation): Handling User Registration via UserService
       - The SignUpUseCaseImpl class manages user registration by creating a SignUpParam object, converting it to a JSON RequestBody, and sending it through userService.signUp(). 
       - It then checks if the API response is "SUCCESS" and returns the result.
@@ -155,6 +155,23 @@
       - It includes a toRequestBody function to convert the data into a JSON-formatted RequestBody for the API request.
     - data/UserModule Update
       - Binds SignUpUseCaseImpl to the SignUpUseCase interface
+  - **Sign-Up Process Updates: State Management, Token Handling, and Navigation**
+    - LoginViewModel and SignUpViewModel blockingIntent Update 
+      - Switched from intent to blockingIntent for handling state updates in text input fields to prevent errors and delays during rapid input. 
+      - This ensures immediate and synchronous state updates, improving user experience and input handling in the application.
+    - Navigation to MainActivity After Successful Login
+      - Added navigation logic to redirect users to MainActivity after a successful login. 
+      - The Intent flags FLAG_ACTIVITY_CLEAR_TASK and FLAG_ACTIVITY_NEW_TASK are used to start MainActivity in a new task and clear the back stack, ensuring that the login screen is removed from the history.
+    - GetTokenUseCaseImpl: Retrieving User Token from DataStore
+      - GetTokenUseCaseImpl retrieves the user's authentication token from UserDataStore by implementing the GetTokenUseCase interface.
+    - SetTokenUseCaseImpl: Handling Token Storage via UserDataStore
+      - SetTokenUseCaseImpl handles saving the user's authentication token into UserDataStore. 
+      - The invoke function takes the token and stores it by calling setToken() in the DataStore.
+    - data/UserDataStore: Managing User Token in DataStore
+      - build.gradle(data) : Added datastore dependency to the project in Gradle using implementation.
+      - UserDataStore provides methods to manage the user's authentication token in Android's DataStore. 
+      - It includes setToken for saving the token, getToken for retrieving it, and clear for removing all stored data.
+
 
 
 **Task 3. Logout Page**

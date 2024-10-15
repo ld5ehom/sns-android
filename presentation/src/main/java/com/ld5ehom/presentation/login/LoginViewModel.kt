@@ -4,8 +4,10 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import com.ld5ehom.domain.usecase.login.LoginUseCase
+import com.ld5ehom.domain.usecase.login.SetTokenUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.syntax.simple.blockingIntent
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
@@ -17,7 +19,8 @@ import javax.inject.Inject
 // ViewModel class that handles login logic using Orbit MVI for state management and side effects
 // Orbit MVI를 사용해 상태 관리 및 부수 효과를 처리하는 ViewModel 클래스
 class LoginViewModel @Inject constructor(
-    private val loginUseCase: LoginUseCase  // LoginUseCase is injected to handle login logic (로그인 로직을 처리하기 위해 LoginUseCase가 주입됨)
+    private val loginUseCase: LoginUseCase,  // LoginUseCase is injected to handle login logic (로그인 로직을 처리하기 위해 LoginUseCase가 주입됨)
+    private val setTokenUseCase:SetTokenUseCase,
 ) : ViewModel(), ContainerHost<LoginState, LoginSideEffect> {
 
     // Orbit container that manages the LoginState and handles side effects
@@ -40,18 +43,20 @@ class LoginViewModel @Inject constructor(
         val id = state.id
         val password = state.password
         val token = loginUseCase(id, password).getOrThrow()  // Perform login and get the token
-        postSideEffect(LoginSideEffect.Toast(message = "token = $token"))  // Show token in a toast message
+        // postSideEffect(LoginSideEffect.Toast(message = "token = $token"))  // Show token in a toast message
+        setTokenUseCase(token)  // save token
+        postSideEffect(LoginSideEffect.NavigateToMainActivity)
     }
 
     // Update the state when the id input changes (id 입력이 변경될 때 상태 업데이트)
-    fun onIdChange(id: String) = intent {
+    fun onIdChange(id: String) = blockingIntent {
         reduce {
             state.copy(id = id)  // Create a new state with the updated id
         }
     }
 
     // Update the state when the password input changes (비밀번호 입력이 변경될 때 상태 업데이트)
-    fun onPasswordChange(password: String) = intent {
+    fun onPasswordChange(password: String) = blockingIntent {
         reduce {
             state.copy(password = password)  // Create a new state with the updated password
         }
@@ -70,4 +75,5 @@ data class LoginState(
 // 부수 효과를 처리하는 인터페이스, Such as: 토스트 메시지 표시
 sealed interface LoginSideEffect {
     class Toast(val message: String) : LoginSideEffect
+    object NavigateToMainActivity:LoginSideEffect // Navigate to MainActivity
 }

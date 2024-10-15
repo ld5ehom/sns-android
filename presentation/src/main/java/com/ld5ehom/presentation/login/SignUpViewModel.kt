@@ -7,6 +7,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import com.ld5ehom.domain.usecase.login.SignUpUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.syntax.simple.blockingIntent
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
@@ -38,28 +39,28 @@ class SignUpViewModel @Inject constructor(
     )
 
     // Updates the state with the entered ID
-    fun onIdChange(id: String) = intent {
+    fun onIdChange(id: String) = blockingIntent {
         reduce {
             state.copy(id = id)
         }
     }
 
     // Updates the state with the entered username
-    fun onUsernameChange(username: String) = intent {
+    fun onUsernameChange(username: String) = blockingIntent {
         reduce {
             state.copy(username = username)
         }
     }
 
     // Updates the state with the entered password
-    fun onPasswordChange(pw: String) = intent {
+    fun onPasswordChange(pw: String) = blockingIntent {
         reduce {
             state.copy(password = pw)
         }
     }
 
     // Updates the state with the re-entered password for confirmation
-    fun onRepeatPasswordChange(pw: String) = intent {
+    fun onRepeatPasswordChange(pw: String) = blockingIntent {
         reduce {
             state.copy(repeatPassword = pw)
         }
