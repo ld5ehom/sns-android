@@ -21,6 +21,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.ld5ehom.presentation.MainActivity
 import com.ld5ehom.presentation.component.CustomButton
 import com.ld5ehom.presentation.component.CustomTextField
 import com.ld5ehom.presentation.theme.SNSTheme
@@ -44,6 +45,15 @@ fun LoginScreen(
     viewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
             is LoginSideEffect.Toast -> Toast.makeText(context, sideEffect.message, Toast.LENGTH_SHORT).show()
+            LoginSideEffect.NavigateToMainActivity -> {
+                context.startActivity(
+                    Intent(
+                        context, MainActivity::class.java
+                    ).apply {
+                        flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                    }
+                )
+            }
         }
     }
 
