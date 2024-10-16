@@ -155,7 +155,7 @@
       - It includes a toRequestBody function to convert the data into a JSON-formatted RequestBody for the API request.
     - data/UserModule Update
       - Binds SignUpUseCaseImpl to the SignUpUseCase interface
-  - **Sign-Up Process Updates: State Management, Token Handling, and Navigation**
+  - **Sign-Up Process Updates: State Management, Token Handling, and Navigation** - [commit a4cbd54](https://github.com/ld5ehom/sns-android/commit/a4cbd5444b44fb52301031356641f7451afaaa02)
     - LoginViewModel and SignUpViewModel blockingIntent Update 
       - Switched from intent to blockingIntent for handling state updates in text input fields to prevent errors and delays during rapid input. 
       - This ensures immediate and synchronous state updates, improving user experience and input handling in the application.
@@ -171,8 +171,20 @@
       - build.gradle(data) : Added datastore dependency to the project in Gradle using implementation.
       - UserDataStore provides methods to manage the user's authentication token in Android's DataStore. 
       - It includes setToken for saving the token, getToken for retrieving it, and clear for removing all stored data.
-
-
+  - **SplashActivity and Dagger Updates: Token Handling, Navigation, and Context Binding**
+    - SplashActivity: Token Check and Navigation Based on Login Status
+      - The SplashActivity checks the user's login status by retrieving the token via GetTokenUseCase. 
+      - If a token exists, it navigates to the MainActivity. If not, it directs the user to the LoginActivity. 
+      - The activity uses Intent flags (FLAG_ACTIVITY_CLEAR_TASK and FLAG_ACTIVITY_NEW_TASK) to clear the task stack and prevent returning to the splash screen.
+    - SplashActivity: Set as Main Entry Point in Android Manifest
+      - Added SplashActivity to the AndroidManifest.xml file as the main entry point of the application. 
+      - The intent filter with MAIN action and LAUNCHER category ensures that this activity is launched when the app is opened.
+    - Dagger/MissingBinding Error : Binding Token UseCase Implementations to Interfaces with Dagger
+      - Added bindings for the token-related use cases (GetTokenUseCaseImpl, SetTokenUseCaseImpl, and ClearTokenUseCaseImpl) to their corresponding interfaces in the Dagger dependency graph using @Binds. 
+      - This ensures that the correct implementations are injected wherever the use case interfaces are required.
+    - Dagger/MissingBinding Error -> AppModule: Binding Application Context for Dependency Injection
+      - The AppModule class provides the Application context by binding the Application instance to the Context interface. 
+      - This setup allows Dagger Hilt to inject the application context wherever the Context type is required within the application.
 
 **Task 3. Logout Page**
 - **Issues** :
