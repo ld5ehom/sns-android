@@ -4,10 +4,17 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import com.ld5ehom.data.usecase.ClearTokenUseCaseImpl
+import com.ld5ehom.data.usecase.GetTokenUseCaseImpl
 import com.ld5ehom.data.usecase.LoginUseCaseImpl
+import com.ld5ehom.data.usecase.SetTokenUseCaseImpl
 import com.ld5ehom.data.usecase.SignUpUseCaseImpl
+import com.ld5ehom.domain.usecase.login.ClearTokenUseCase
+import com.ld5ehom.domain.usecase.login.GetTokenUseCase
 import com.ld5ehom.domain.usecase.login.LoginUseCase
 import com.ld5ehom.domain.usecase.login.SignUpUseCase
+import com.ld5ehom.domain.usecase.login.SetTokenUseCase
+
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -23,5 +30,20 @@ abstract class UserModule {
     @Binds
     // Binds SignUpUseCaseImpl to the SignUpUseCase interface
     abstract fun bindSignUpUseCase(uc: SignUpUseCaseImpl):SignUpUseCase
+
+    @Binds
+    // Binds GetTokenUseCaseImpl implementation to the GetTokenUseCase interface
+    // (GetTokenUseCase 인터페이스에 GetTokenUseCaseImpl 구현체를 바인딩)
+    abstract fun bindGetTokenUseCase(uc: GetTokenUseCaseImpl): GetTokenUseCase
+
+    @Binds
+    // Binds SetTokenUseCaseImpl implementation to the SetTokenUseCase interface
+    // (SetTokenUseCase 인터페이스에 SetTokenUseCaseImpl 구현체를 바인딩)
+    abstract fun bindSetTokenUseCase(uc: SetTokenUseCaseImpl): SetTokenUseCase
+
+    @Binds
+    // Binds ClearTokenUseCaseImpl implementation to the ClearTokenUseCase interface
+    // (ClearTokenUseCase 인터페이스에 ClearTokenUseCaseImpl 구현체를 바인딩)
+    abstract fun bindClearTokenUseCase(uc: ClearTokenUseCaseImpl): ClearTokenUseCase
 
 }
