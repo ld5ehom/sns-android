@@ -1,8 +1,16 @@
 # SNS Android App
 
 ## Project Overview 
+- Designed and developed an authentication system with Login and Sign-Up features using Kotlin, Jetpack Compose, and Hilt for dependency injection. The project followed Android Clean Architecture, separating the codebase into Domain, Presentation, and Data layers for better maintainability, testability, and scalability.
+- Implemented state management and side-effect handling using Orbit MVI, ensuring smooth user interactions and asynchronous operations. Integrated Navigation Compose for seamless navigation between screens, with conditional routing based on authentication tokens checked in SplashActivity.
+- Handled API interactions via Retrofit, standardizing responses using a CommonResponse model, and managed user tokens with DataStore, implementing custom use cases for token management.
+- The clean architecture approach improved the scalability and maintainability of the project, while Hilt streamlined dependency management across the modular structure.
+- Utilized: Kotlin, Hilt, MVI (Orbit), Jetpack Compose, Retrofit, DataStore, Android Clean Architecture.
 
-- Utilized: Kotlin, Hilt, MVI, Orbit, Jetpack Compose 
+-----
+## Reference Site
+- Android Guide to app architecture : https://developer.android.com/topic/architecture?hl=en
+- Kotlin : https://kotlinlang.org/docs/home.html
 
 -----
 ## Milestones
@@ -103,8 +111,7 @@
       - Introduced Side Effect Handling: LoginSideEffect manages UI-related actions like showing toast messages, keeping business logic separate from the UI.
       - Improved Error Handling: A CoroutineExceptionHandler now handles login errors, showing error messages via side effects.
       - Input Handling Updates: Added onIdChange and onPasswordChange to update state when user input changes.
-  - **Login Feature Updates: Password Masking, Orbit MVI Integration, and Retrofit Setup** 
-  - [commit 13f4a3e](https://github.com/ld5ehom/sns-android/commit/13f4a3e1e5d607da72b734bdc1905d40562784ac)
+  - **Login Feature Updates: Password Masking, Orbit MVI Integration, and Retrofit Setup** - [commit 13f4a3e](https://github.com/ld5ehom/sns-android/commit/13f4a3e1e5d607da72b734bdc1905d40562784ac)
     - CustomTextField Update for Password Masking
       - Password Masking Added: visualTransformation was added to hide text input for password fields using PasswordVisualTransformation.
     - Enhancements in LoginScreen with Orbit MVI Integration
@@ -122,7 +129,7 @@
       - CommonResponse is a generic data class in data/model used to standardize API responses. It includes fields for result status, data, and error details to ensure consistent handling of API responses.
     - RetrofitModule Update: Providing UserService for API Calls
       - UserService Update: An update was made in RetrofitModule to provide an instance of UserService using Retrofit. This allows UserService to be injected and utilized across the application for making API requests.
-  - **Login API Request Handling: Data Model and Use Case Implementation**
+  - **Login API Request Handling: Data Model and Use Case Implementation** - [commit 5dad6c5](https://github.com/ld5ehom/sns-android/commit/5dad6c5df8a33497ea07d5745486962ab8d8a704)
     - data/model/LoginParam
       - The LoginParam class is a data model used to store the login credentials (loginId and password) for API requests. It includes a method toRequestBody() that converts the LoginParam object into a JSON-formatted RequestBody, which is required for making login API requests.
     - LoginUseCaseImpl Implementation with Dagger for API Integration
@@ -171,7 +178,7 @@
       - build.gradle(data) : Added datastore dependency to the project in Gradle using implementation.
       - UserDataStore provides methods to manage the user's authentication token in Android's DataStore. 
       - It includes setToken for saving the token, getToken for retrieving it, and clear for removing all stored data.
-  - **SplashActivity and Dagger Updates: Token Handling, Navigation, and Context Binding**
+  - **SplashActivity and Dagger Updates: Token Handling, Navigation, and Context Binding** - [commit 340e3a9](https://github.com/ld5ehom/sns-android/commit/340e3a96542bc0bfde25310f5d69cd3da3cae752)
     - SplashActivity: Token Check and Navigation Based on Login Status
       - The SplashActivity checks the user's login status by retrieving the token via GetTokenUseCase. 
       - If a token exists, it navigates to the MainActivity. If not, it directs the user to the LoginActivity. 
@@ -186,13 +193,27 @@
       - The AppModule class provides the Application context by binding the Application instance to the Context interface. 
       - This setup allows Dagger Hilt to inject the application context wherever the Context type is required within the application.
 
-**Task 3. Logout Page**
-- **Issues** :
+**Task 3. User Profile Page Setting**
+- **Issues** : [task-3-profile](https://github.com/ld5ehom/sns-android/tree/task-3-profile)
 - **Details** :
+  - **Main Navigation and Route Updates: Enhanced Structure and Navigation Flow**
+    - MainNavHost: Managing Navigation for Home, Profile, and Post Screens
+      - The MainNavHost manages navigation between the app's main screens using a NavController. 
+      - It includes navigation between the "Home", "Profile", and "Post" screens. 
+      - The start destination is set to the "Home" screen, with a top bar showing the app title and a bottom navigation bar for switching between screens.
+    - MainBottomBar: Handling Navigation and Icon Highlighting in the Bottom Bar
+      - The MainBottomBar component provides navigation functionality within the app using the NavController. 
+      - It determines the current route and navigates between the "Home", "Profile", and "Post" screens, with special handling for starting WritingActivity when the "Post" route is selected. 
+      - The bottom bar highlights the currently selected icon using MaterialTheme.
+      - For the "Post" route, a separate activity (PostActivity) is launched, while navigation for the other routes is handled within the same navigation graph using the NavController.
+    - MainRoute Enum Update: Renaming Routes and Descriptions
+      - The MainRoute enum was updated to reflect changes in route names and descriptions.
+      - The corresponding routes and content descriptions were updated to "HomeScreen" (Post List), "PostScreen" (Create Post), and "ProfileScreen" (My Profile), aligning with the new functionality and navigation structure.
 
-**Task 4. Profile Page**
+
+
+**Task 4: Logout Page**
 - **Issues** :
-- Create a screen to display and edit user profile information.
 
 **Task 5: Post Creation**
 - **Issues** :
@@ -206,11 +227,11 @@
 - **Issues** :
 - Implement a feature that allows users to view and add comments on posts.
 
-
-
+**Task 8: Advanced Features and Testing**
+- **Issues** :
 
 -----
 ## Progress Tracking
-- **Overall Progress** : Task 2 In Progress
+- **Overall Progress** : Task 3 In Progress
 
 

@@ -8,6 +8,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import com.ld5ehom.domain.usecase.login.GetTokenUseCase
 import com.ld5ehom.presentation.login.LoginActivity
+import com.ld5ehom.presentation.main.MainActivity
 import javax.inject.Inject
 
 @AndroidEntryPoint
