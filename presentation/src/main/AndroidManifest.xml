@@ -7,7 +7,7 @@
 
         <!-- Specifies that this activity appears in the app launcher -->
         <!-- 이 액티비티가 앱 실행기(런처)에 표시되도록 설정 -->
-        <activity android:name=".MainActivity" />
+        <activity android:name=".main.MainActivity" />
         <activity
                 android:name=".SplashActivity"
                 android:exported="true">
@@ -24,5 +24,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".main.post.PostActivity" />
     </application>
 </manifest>

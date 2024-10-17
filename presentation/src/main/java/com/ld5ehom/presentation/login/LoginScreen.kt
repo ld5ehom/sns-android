@@ -21,7 +21,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.ld5ehom.presentation.MainActivity
+import com.ld5ehom.presentation.main.MainActivity
 import com.ld5ehom.presentation.component.CustomButton
 import com.ld5ehom.presentation.component.CustomTextField
 import com.ld5ehom.presentation.theme.SNSTheme

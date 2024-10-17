@@ -1,8 +1,8 @@
-package com.ld5ehom.presentation
+package com.ld5ehom.presentation.main.post
 
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class PostActivity : AppCompatActivity() {
 }
