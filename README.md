@@ -10,6 +10,7 @@
 -----
 ## Reference Site
 - Android Guide to app architecture : https://developer.android.com/topic/architecture?hl=en
+- Android Customize an image : https://developer.android.com/develop/ui/compose/graphics/images/customize?hl=en
 - Kotlin : https://kotlinlang.org/docs/home.html
 
 -----
@@ -18,7 +19,7 @@
 - M2 : Advanced Features and Testing
 
 -----
-**Task 1. Login Page**
+### Task 1. Login Page
 - **Issues** : [task-1-login](https://github.com/ld5ehom/sns-android/tree/task-1-login)
 - **Details** :
   - **Add login UI and ViewModel structure** - [commit b940785](https://github.com/ld5ehom/sns-android/commit/b940785f9d81e6ac7ecb2a41a4f8676c81d6d894)
@@ -111,7 +112,7 @@
       - Introduced Side Effect Handling: LoginSideEffect manages UI-related actions like showing toast messages, keeping business logic separate from the UI.
       - Improved Error Handling: A CoroutineExceptionHandler now handles login errors, showing error messages via side effects.
       - Input Handling Updates: Added onIdChange and onPasswordChange to update state when user input changes.
-  - **Login Feature Updates: Password Masking, Orbit MVI Integration, and Retrofit Setup** - [commit 13f4a3e](https://github.com/ld5ehom/sns-android/commit/13f4a3e1e5d607da72b734bdc1905d40562784ac)
+  - **Login Feature Updates: Password Masking, Orbit MVI Integration and Retrofit Setup** - [13f4a3e](https://github.com/ld5ehom/sns-android/commit/13f4a3e1e5d607da72b734bdc1905d40562784ac)
     - CustomTextField Update for Password Masking
       - Password Masking Added: visualTransformation was added to hide text input for password fields using PasswordVisualTransformation.
     - Enhancements in LoginScreen with Orbit MVI Integration
@@ -137,7 +138,7 @@
 
 
 
-**Task 2. Sign Up Page**
+### Task 2. Sign Up Page
 - **Issues** : [task-2-signup](https://github.com/ld5ehom/sns-android/tree/task-2-signup)
 - **Details** :
   - **Sign-Up Process Updates: State Management, Navigation, and Error Handling** - [commit 45b49ed](https://github.com/ld5ehom/sns-android/commit/45b49edd90d4bca2c2997f3879e2ff8d4b2a84bc)
@@ -178,7 +179,7 @@
       - build.gradle(data) : Added datastore dependency to the project in Gradle using implementation.
       - UserDataStore provides methods to manage the user's authentication token in Android's DataStore. 
       - It includes setToken for saving the token, getToken for retrieving it, and clear for removing all stored data.
-  - **SplashActivity and Dagger Updates: Token Handling, Navigation, and Context Binding** - [commit 340e3a9](https://github.com/ld5ehom/sns-android/commit/340e3a96542bc0bfde25310f5d69cd3da3cae752)
+  - **SplashActivity and Dagger Updates: Token Handling, Navigation and Context Binding** - [340e3a9](https://github.com/ld5ehom/sns-android/commit/340e3a96542bc0bfde25310f5d69cd3da3cae752)
     - SplashActivity: Token Check and Navigation Based on Login Status
       - The SplashActivity checks the user's login status by retrieving the token via GetTokenUseCase. 
       - If a token exists, it navigates to the MainActivity. If not, it directs the user to the LoginActivity. 
@@ -193,10 +194,10 @@
       - The AppModule class provides the Application context by binding the Application instance to the Context interface. 
       - This setup allows Dagger Hilt to inject the application context wherever the Context type is required within the application.
 
-**Task 3. User Profile Page Setting**
+### Task 3. User Profile Page Setting
 - **Issues** : [task-3-profile](https://github.com/ld5ehom/sns-android/tree/task-3-profile)
 - **Details** :
-  - **Main Navigation and Route Updates: Enhanced Structure and Navigation Flow**
+  - **Main Navigation and Route Updates: Enhanced Structure and Navigation Flow** - [60ee919](https://github.com/ld5ehom/sns-android/commit/60ee9199d7caf4b509ada6a5e81f738262e566e4)
     - MainNavHost: Managing Navigation for Home, Profile, and Post Screens
       - The MainNavHost manages navigation between the app's main screens using a NavController. 
       - It includes navigation between the "Home", "Profile", and "Post" screens. 
@@ -209,25 +210,36 @@
     - MainRoute Enum Update: Renaming Routes and Descriptions
       - The MainRoute enum was updated to reflect changes in route names and descriptions.
       - The corresponding routes and content descriptions were updated to "HomeScreen" (Post List), "PostScreen" (Create Post), and "ProfileScreen" (My Profile), aligning with the new functionality and navigation structure.
+  - **Profile Screen UI and ViewModel Updates** 
+    - Profile Screen UI
+      - Profile Screen UI and Logic: Implements a screen for managing user profile settings such as username, profile image, and logout functionality. It handles navigation to the login screen and displays a toast message for certain actions.
+      - Composable Structure: The ProfileScreen composable displays user profile settings and provides buttons for changing the profile image, editing the username, and logging out. The UI includes state management using the ProfileViewModel.
+    - Profile Image Component
+      - CustomProfileImage Component: Displays a profile image inside a circular frame. If no profile image URL is provided, a default person icon is displayed.
+      - Customization: The component allows for customization of the image and border via the modifier and borderWidth parameters.
+    - Profile Screen ViewModel and State Management
+      - ProfileViewModel: Manages the state of the profile screen, including loading the user’s profile information (username and profile image) and handling the logout process.
+      - State and Side Effect Management: Utilizes Orbit MVI to manage the state and side effects. It updates the screen state with user data and handles side effects like showing toast messages and navigating to the login screen on logout.
+    - Error Handling in ClearToken Use Case
+      - ClearTokenUseCase: The Result<Unit> return type was added to the ClearTokenUseCase interface to standardize the error-handling mechanism for clearing the user's token.
+      - ClearTokenUseCaseImpl: In the ClearTokenUseCaseImpl implementation, kotlin.runCatching{} was introduced to wrap the token-clearing logic. This guarantees that any exceptions raised during the userDataStore.clear() operation are caught and returned as part of a Result<Unit>.
+    - UserDTO Data Model and Domain Conversion
+      - UserDTO: A serializable data transfer object (DTO) designed for use with APIs. It represents user-related data fields including id, loginId, userName, extraUserInfo, and profileFilePath.
 
 
-
-**Task 4: Logout Page**
-- **Issues** :
-
-**Task 5: Post Creation**
+**Task 4: Post Creation**
 - **Issues** :
 - Develop functionality for users to create and submit new posts.
 
-**Task 6: Post List Screen**
+**Task 5: Post List Screen**
 - **Issues** :
 - Build a screen that displays a list of posts in a feed or timeline format.
 
-**Task 7: Comments**
+**Task 6: Comments**
 - **Issues** :
 - Implement a feature that allows users to view and add comments on posts.
 
-**Task 8: Advanced Features and Testing**
+**Task 7: Advanced Features and Testing**
 - **Issues** :
 
 -----
