@@ -210,7 +210,7 @@
     - MainRoute Enum Update: Renaming Routes and Descriptions
       - The MainRoute enum was updated to reflect changes in route names and descriptions.
       - The corresponding routes and content descriptions were updated to "HomeScreen" (Post List), "PostScreen" (Create Post), and "ProfileScreen" (My Profile), aligning with the new functionality and navigation structure.
-  - **Profile Screen UI and ViewModel Updates** 
+  - **Profile Screen UI and ViewModel Updates** - [48e052b](https://github.com/ld5ehom/sns-android/commit/48e052b73a4a86f4217b901ee3ea417ec3a2730b)
     - Profile Screen UI
       - Profile Screen UI and Logic: Implements a screen for managing user profile settings such as username, profile image, and logout functionality. It handles navigation to the login screen and displays a toast message for certain actions.
       - Composable Structure: The ProfileScreen composable displays user profile settings and provides buttons for changing the profile image, editing the username, and logging out. The UI includes state management using the ProfileViewModel.
@@ -225,6 +225,19 @@
       - ClearTokenUseCaseImpl: In the ClearTokenUseCaseImpl implementation, kotlin.runCatching{} was introduced to wrap the token-clearing logic. This guarantees that any exceptions raised during the userDataStore.clear() operation are caught and returned as part of a Result<Unit>.
     - UserDTO Data Model and Domain Conversion
       - UserDTO: A serializable data transfer object (DTO) designed for use with APIs. It represents user-related data fields including id, loginId, userName, extraUserInfo, and profileFilePath.
+    - **Retrofit Integration with Custom Interceptor for Token Management and Dynamic Headers**
+      - GetMyUserUseCaseImpl: Fetching and Mapping User Data
+        - GetMyUserUseCaseImpl: Fetches user data by calling the myPage() API from the UserService. The result is wrapped in a Result<User> to handle potential errors.
+        - Domain Conversion: Converts the response from the DTO format to a domain-specific User model using the toDomainModel() function for further use within the application.
+      - UserDTO Update: Domain Model Conversion Function
+        - Domain Model Conversion Added: The toDomainModel function was added to the UserDTO class, allowing it to be easily converted into a domain-specific User model.
+      - Adding Binding for GetMyUserUseCase in User Module
+        - Binding GetMyUserUseCase Implementation: The bindGetMyUserUseCase function was added to the User module using Dagger's @Binds annotation.
+      - Retrofit and Custom Interceptor Implementation for Token Management and HTTP 401 Error Handling
+        - CustomInterceptor for Dynamic Headers: The CustomInterceptor class was implemented to dynamically inject headers into all API requests. It retrieves the authentication token from UserDataStore and adds it as a "Token" header if available.
+        - OkHttpClient with CustomInterceptor: The OkHttpClient is configured to use CustomInterceptor for injecting headers dynamically. This ensures that headers like the token and content type are automatically included in every request without needing to specify them individually in UserService.
+        - Retrofit Configuration: A Retrofit instance is provided with the OkHttpClient (configured with the interceptor) and a JSON converter that ignores unknown keys.
+        - UserService API Integration: With the interceptor handling the dynamic headers, the UserService interface now relies on Retrofit.create() for API calls, without needing manual @Headers declarations in the service methods.
 
 
 **Task 4: Post Creation**
