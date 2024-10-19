@@ -225,19 +225,22 @@
       - ClearTokenUseCaseImpl: In the ClearTokenUseCaseImpl implementation, kotlin.runCatching{} was introduced to wrap the token-clearing logic. This guarantees that any exceptions raised during the userDataStore.clear() operation are caught and returned as part of a Result<Unit>.
     - UserDTO Data Model and Domain Conversion
       - UserDTO: A serializable data transfer object (DTO) designed for use with APIs. It represents user-related data fields including id, loginId, userName, extraUserInfo, and profileFilePath.
-    - **Retrofit Integration with Custom Interceptor for Token Management and Dynamic Headers**
-      - GetMyUserUseCaseImpl: Fetching and Mapping User Data
-        - GetMyUserUseCaseImpl: Fetches user data by calling the myPage() API from the UserService. The result is wrapped in a Result<User> to handle potential errors.
-        - Domain Conversion: Converts the response from the DTO format to a domain-specific User model using the toDomainModel() function for further use within the application.
-      - UserDTO Update: Domain Model Conversion Function
-        - Domain Model Conversion Added: The toDomainModel function was added to the UserDTO class, allowing it to be easily converted into a domain-specific User model.
-      - Adding Binding for GetMyUserUseCase in User Module
-        - Binding GetMyUserUseCase Implementation: The bindGetMyUserUseCase function was added to the User module using Dagger's @Binds annotation.
-      - Retrofit and Custom Interceptor Implementation for Token Management and HTTP 401 Error Handling
-        - CustomInterceptor for Dynamic Headers: The CustomInterceptor class was implemented to dynamically inject headers into all API requests. It retrieves the authentication token from UserDataStore and adds it as a "Token" header if available.
-        - OkHttpClient with CustomInterceptor: The OkHttpClient is configured to use CustomInterceptor for injecting headers dynamically. This ensures that headers like the token and content type are automatically included in every request without needing to specify them individually in UserService.
-        - Retrofit Configuration: A Retrofit instance is provided with the OkHttpClient (configured with the interceptor) and a JSON converter that ignores unknown keys.
-        - UserService API Integration: With the interceptor handling the dynamic headers, the UserService interface now relies on Retrofit.create() for API calls, without needing manual @Headers declarations in the service methods.
+  - **Retrofit Integration with Custom Interceptor for Token Management and Dynamic Headers** - [fc7a012](https://github.com/ld5ehom/sns-android/commit/fc7a0121846aa6f26d31754840394ba0fb924c14)
+    - GetMyUserUseCaseImpl: Fetching and Mapping User Data
+      - GetMyUserUseCaseImpl: Fetches user data by calling the myPage() API from the UserService. The result is wrapped in a Result<User> to handle potential errors.
+      - Domain Conversion: Converts the response from the DTO format to a domain-specific User model using the toDomainModel() function for further use within the application.
+    - UserDTO Update: Domain Model Conversion Function
+      - Domain Model Conversion Added: The toDomainModel function was added to the UserDTO class, allowing it to be easily converted into a domain-specific User model.
+    - Adding Binding for GetMyUserUseCase in User Module
+      - Binding GetMyUserUseCase Implementation: The bindGetMyUserUseCase function was added to the User module using Dagger's @Binds annotation.
+    - Retrofit and Custom Interceptor Implementation for Token Management and HTTP 401 Error Handling
+      - CustomInterceptor for Dynamic Headers: The CustomInterceptor class was implemented to dynamically inject headers into all API requests. It retrieves the authentication token from UserDataStore and adds it as a "Token" header if available.
+      - OkHttpClient with CustomInterceptor: The OkHttpClient is configured to use CustomInterceptor for injecting headers dynamically. This ensures that headers like the token and content type are automatically included in every request without needing to specify them individually in UserService.
+      - Retrofit Configuration: A Retrofit instance is provided with the OkHttpClient (configured with the interceptor) and a JSON converter that ignores unknown keys.
+      - UserService API Integration: With the interceptor handling the dynamic headers, the UserService interface now relies on Retrofit.create() for API calls, without needing manual @Headers declarations in the service methods.
+  - **OkHttpClient Interceptor Integration**
+    - Added CustomInterceptor to OkHttpClient using .addInterceptor() to dynamically inject headers, such as tokens, into every API request for handling authentication and preventing HTTP 401 errors.
+
 
 
 **Task 4: Post Creation**
