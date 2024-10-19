@@ -1,6 +1,7 @@
 package com.ld5ehom.data.di
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.ld5ehom.data.retrofit.CustomInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,7 +22,7 @@ class RetrofitModule {
     // Provides and binds the OkHttpClient instance to the Dagger dependency graph
     // (OkHttpClient 인스턴스를 Dagger 의존성 그래프에 제공하고 바인딩함)
     @Provides
-    fun provideOkHttpClient(): OkHttpClient {
+    fun provideOkHttpClient(interceptor: CustomInterceptor): OkHttpClient {
         return OkHttpClient
             .Builder()
             .build()

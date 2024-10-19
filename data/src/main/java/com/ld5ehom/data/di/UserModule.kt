@@ -9,11 +9,13 @@ import com.ld5ehom.data.usecase.GetTokenUseCaseImpl
 import com.ld5ehom.data.usecase.LoginUseCaseImpl
 import com.ld5ehom.data.usecase.SetTokenUseCaseImpl
 import com.ld5ehom.data.usecase.SignUpUseCaseImpl
+import com.ld5ehom.data.usecase.main.profile.GetMyUserUseCaseImpl
 import com.ld5ehom.domain.usecase.login.ClearTokenUseCase
 import com.ld5ehom.domain.usecase.login.GetTokenUseCase
 import com.ld5ehom.domain.usecase.login.LoginUseCase
 import com.ld5ehom.domain.usecase.login.SignUpUseCase
 import com.ld5ehom.domain.usecase.login.SetTokenUseCase
+import com.ld5ehom.domain.usecase.main.profile.GetMyUserUseCase
 
 
 @Module
@@ -46,4 +48,8 @@ abstract class UserModule {
     // (ClearTokenUseCase 인터페이스에 ClearTokenUseCaseImpl 구현체를 바인딩)
     abstract fun bindClearTokenUseCase(uc: ClearTokenUseCaseImpl): ClearTokenUseCase
 
+    @Binds
+    // Binds the GetMyUserUseCaseImpl to GetMyUserUseCase in the Dagger dependency graph.
+    // (Dagger 의존성 그래프에서 GetMyUserUseCaseImpl을 GetMyUserUseCase에 바인딩함)
+    abstract fun bindGetMyUserUseCase(uc: GetMyUserUseCaseImpl):GetMyUserUseCase
 }
