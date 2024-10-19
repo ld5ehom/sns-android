@@ -25,6 +25,7 @@ class RetrofitModule {
     fun provideOkHttpClient(interceptor: CustomInterceptor): OkHttpClient {
         return OkHttpClient
             .Builder()
+            .addInterceptor(interceptor)
             .build()
     }
 
