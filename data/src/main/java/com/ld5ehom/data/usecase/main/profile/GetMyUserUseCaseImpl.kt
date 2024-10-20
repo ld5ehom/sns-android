@@ -18,6 +18,6 @@ class GetMyUserUseCaseImpl @Inject constructor(
     override suspend fun invoke(): Result<User> = kotlin.runCatching {
         // Calls the myPage() API, gets the response, and converts the DTO to the User domain model
         // (myPage() API를 호출하고 응답 데이터를 가져온 후 DTO를 User 도메인 모델로 변환)
-        userService.myPage().data.toDomainModel()
+        userService.getMyPage().data.toDomainModel()
     }
 }

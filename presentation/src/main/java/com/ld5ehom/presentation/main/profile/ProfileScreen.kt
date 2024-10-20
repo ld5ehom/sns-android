@@ -2,6 +2,9 @@ package com.ld5ehom.presentation.main.profile
 
 import android.content.Intent
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -21,6 +24,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,6 +47,9 @@ import org.orbitmvi.orbit.compose.collectSideEffect
 fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel()) {
     val context = LocalContext.current
     val state = viewModel.collectAsState().value
+    var usernameDialogVisible by remember {
+        mutableStateOf(false)
+    }
 
     // Handles side effects such as showing a toast message or navigating to the login screen
     // (토스트 메시지 표시나 로그인 화면으로의 네비게이션 같은 부수 효과를 처리)
@@ -67,8 +77,17 @@ fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel()) {
         username = state.username,
         profileImageUrl = state.profileImageUrl,
         onImageChangeClick = {},
-        onNameChangeClick = {},
+        onNameChangeClick = { usernameDialogVisible = true },
         onLogoutClick = viewModel::onLogoutClick
+    )
+
+    // Shows UsernameDialog for changing username and handles changes
+    // (사용자 이름을 변경하기 위한 UsernameDialog를 표시하고 변경을 처리)
+    UsernameDialog(
+        visible = usernameDialogVisible,
+        initialUsername = state.username,
+        onUsernameChange = viewModel::onUsernameChange,
+        onDismissRequest = { usernameDialogVisible = false }
     )
 }
 
