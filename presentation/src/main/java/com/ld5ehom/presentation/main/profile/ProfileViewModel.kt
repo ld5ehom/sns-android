@@ -7,6 +7,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import com.ld5ehom.domain.model.User
 import com.ld5ehom.domain.usecase.login.ClearTokenUseCase
 import com.ld5ehom.domain.usecase.main.profile.GetMyUserUseCase
+import com.ld5ehom.domain.usecase.main.profile.SetMyUserUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -25,7 +26,11 @@ class ProfileViewModel @Inject constructor(
 
     // Injected GetMyUserUseCase to retrieve the current user's profile information
     // (현재 사용자의 프로필 정보를 가져오기 위한 GetMyUserUseCase 주입)
-    private val getMyUserUseCase: GetMyUserUseCase
+    private val getMyUserUseCase: GetMyUserUseCase,
+
+    // Injected SetMyUserUseCase to update the current user's profile information
+    // (현재 사용자의 프로필 정보를 업데이트하기 위한 SetMyUserUseCase 주입)
+    private val setMyUserUseCase: SetMyUserUseCase,
 ) : ViewModel(), ContainerHost<ProfileState, ProfileSideEffect> {
 
     // Container for managing state and side effects in Orbit MVI
@@ -70,6 +75,14 @@ class ProfileViewModel @Inject constructor(
         clearTokenUseCase().getOrThrow()  // Clears the user token
         postSideEffect(ProfileSideEffect.NavigateToLoginActivity)  // Triggers navigation to the login screen
     }
+
+    // Handles the username change by calling setMyUserUseCase to update the user's profile
+    // (사용자의 프로필을 업데이트하기 위해 setMyUserUseCase를 호출하여 사용자 이름을 변경 처리함)
+    fun onUsernameChange(username: String) = intent {
+        setMyUserUseCase(username = username).getOrThrow()   // Executes the use case to update the username and throws an exception if it fails
+        load()
+    }
+
 }
 
 // Immutable state class to hold profile data

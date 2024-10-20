@@ -136,8 +136,6 @@
     - LoginUseCaseImpl Implementation with Dagger for API Integration
       - LoginUseCaseImpl leverages Dagger's @Inject for dependency injection, automatically providing UserService to handle login API calls. The invoke function converts user credentials into a request body, calls the login API, and safely handles the response using Kotlin’s runCatching.
 
-
-
 ### Task 2. Sign Up Page
 - **Issues** : [task-2-signup](https://github.com/ld5ehom/sns-android/tree/task-2-signup)
 - **Details** :
@@ -194,7 +192,7 @@
       - The AppModule class provides the Application context by binding the Application instance to the Context interface. 
       - This setup allows Dagger Hilt to inject the application context wherever the Context type is required within the application.
 
-### Task 3. User Profile Page Setting
+### Task 3. User Profile Page
 - **Issues** : [task-3-profile](https://github.com/ld5ehom/sns-android/tree/task-3-profile)
 - **Details** :
   - **Main Navigation and Route Updates: Enhanced Structure and Navigation Flow** - [60ee919](https://github.com/ld5ehom/sns-android/commit/60ee9199d7caf4b509ada6a5e81f738262e566e4)
@@ -238,24 +236,45 @@
       - OkHttpClient with CustomInterceptor: The OkHttpClient is configured to use CustomInterceptor for injecting headers dynamically. This ensures that headers like the token and content type are automatically included in every request without needing to specify them individually in UserService.
       - Retrofit Configuration: A Retrofit instance is provided with the OkHttpClient (configured with the interceptor) and a JSON converter that ignores unknown keys.
       - UserService API Integration: With the interceptor handling the dynamic headers, the UserService interface now relies on Retrofit.create() for API calls, without needing manual @Headers declarations in the service methods.
-  - **OkHttpClient Interceptor Integration**
+  - **OkHttpClient Interceptor Integration** - [ebed6fa](https://github.com/ld5ehom/sns-android/commit/ebed6fad4d2d3f384eb9f8ad167d5cfebfd594bd)
     - Added CustomInterceptor to OkHttpClient using .addInterceptor() to dynamically inject headers, such as tokens, into every API request for handling authentication and preventing HTTP 401 errors.
+  - **Profile User Name Change Feature Update**
+    - presentation/profile/UsernameDialog
+      - The UsernameDialog composable provides a dialog interface for users to update their profile name. It displays an input field pre-filled with the user's current username, and allows the user to modify it. This functionality is designed for efficient and interactive profile name management, with callbacks for handling changes and dismissing the dialog.
+    - ProfileScreen Update  
+      - The ProfileScreen was updated to allow users to change their username by displaying a UsernameDialog. The dialog collects the new username and triggers an API call to update the user's profile.
+      - The dialog is shown when usernameDialogVisible is true, and the new username is passed to the onUsernameChange function in ProfileViewModel, which handles the update logic.
+    - ProfileViewModel update: 
+      - Username Change Handling: A new method onUsernameChange is added to the Profile ViewModel, which calls the setMyUserUseCase to update the user's profile name with the provided username.
+      - State Management: The use case is executed within an intent block, and if successful, the updated profile is reloaded by calling load(), ensuring the UI reflects the changes immediately.
+    - UserService Update 
+      - A new patchMyPage method was added to the UserService interface. This method sends a PATCH request to update the user's profile by accepting a RequestBody as input and returning a CommonResponse<Long>.
+    - SetMyUserUseCaseImpl: Handling User Profile Updates
+      - User Profile Update: The SetMyUserUseCaseImpl implementation handles updating the user's profile by sending the updated username and profile image URL to the server via UserService.
+      - Fetch and Merge Current Data: If the new username or profile image is not provided, it fetches the current user data using GetMyUserUseCase to ensure no data is lost during the update.
+      - API Integration: It uses UserService.patchMyPage to send the update request to the server after constructing the request body with UpdateMyInfoParam.
+    - UpdateMyInfoParam: Data Class for User Profile Updates
+      - User Profile Update: UpdateMyInfoParam is a serializable data class used to encapsulate the parameters needed for updating user information (username, profile image path, and extra user details) via API.
+      - JSON Serialization: It includes a toRequestBody method that converts the data into a JSON-formatted RequestBody, which is essential for making API requests.
+      - API Communication: The data is serialized to ensure it's in the correct format for being transmitted to the backend through the patchMyPage API.
+    - UserModule : Binding SetMyUserUseCase Implementation in UserModule
+      - Dependency Injection with Dagger: This line of code in the UserModule binds the SetMyUserUseCaseImpl implementation to the SetMyUserUseCase interface using Dagger's @Binds annotation.
 
 
 
-**Task 4: Post Creation**
-- **Issues** :
+### Task 4: Post Creation
+- **Issues** : 
 - Develop functionality for users to create and submit new posts.
 
-**Task 5: Post List Screen**
+### Task 5: Post List Screen**
 - **Issues** :
 - Build a screen that displays a list of posts in a feed or timeline format.
 
-**Task 6: Comments**
+### Task 6: Comments**
 - **Issues** :
 - Implement a feature that allows users to view and add comments on posts.
 
-**Task 7: Advanced Features and Testing**
+### Task 7: Advanced Features and Testing**
 - **Issues** :
 
 -----
