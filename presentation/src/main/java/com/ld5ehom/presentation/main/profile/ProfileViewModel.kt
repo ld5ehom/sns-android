@@ -1,5 +1,6 @@
 package com.ld5ehom.presentation.main.profile
 
+import android.net.Uri
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -8,6 +9,7 @@ import com.ld5ehom.domain.model.User
 import com.ld5ehom.domain.usecase.login.ClearTokenUseCase
 import com.ld5ehom.domain.usecase.main.profile.GetMyUserUseCase
 import com.ld5ehom.domain.usecase.main.profile.SetMyUserUseCase
+import com.ld5ehom.domain.usecase.main.profile.SetProfileImageUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -31,6 +33,10 @@ class ProfileViewModel @Inject constructor(
     // Injected SetMyUserUseCase to update the current user's profile information
     // (현재 사용자의 프로필 정보를 업데이트하기 위한 SetMyUserUseCase 주입)
     private val setMyUserUseCase: SetMyUserUseCase,
+
+    // Injected SetProfileImageUseCase to handle the profile image update
+    // (프로필 이미지 업데이트를 처리하기 위한 SetProfileImageUseCase 주입)
+    private val setProfileImageUseCase: SetProfileImageUseCase
 ) : ViewModel(), ContainerHost<ProfileState, ProfileSideEffect> {
 
     // Container for managing state and side effects in Orbit MVI
@@ -79,10 +85,20 @@ class ProfileViewModel @Inject constructor(
     // Handles the username change by calling setMyUserUseCase to update the user's profile
     // (사용자의 프로필을 업데이트하기 위해 setMyUserUseCase를 호출하여 사용자 이름을 변경 처리함)
     fun onUsernameChange(username: String) = intent {
-        setMyUserUseCase(username = username).getOrThrow()   // Executes the use case to update the username and throws an exception if it fails
+        setMyUserUseCase(
+            username = username
+        ).getOrThrow()   // Executes the use case to update the username and throws an exception if it fails
         load()
     }
 
+    // Handles the profile image change by calling setProfileImageUseCase to update the user's profile image
+    // (사용자의 프로필 이미지를 업데이트하기 위해 setProfileImageUseCase를 호출하여 이미지 변경 처리함)
+    fun onImageChange(contentUri: Uri?) = intent {
+        setProfileImageUseCase(
+            contentUri = contentUri.toString()
+        ).getOrThrow()  // Executes the use case to update the profile image and throws an exception if it fails
+        load()
+    }
 }
 
 // Immutable state class to hold profile data

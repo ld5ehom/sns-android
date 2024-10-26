@@ -2,6 +2,7 @@ package com.ld5ehom.data.di
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.ld5ehom.data.retrofit.CustomInterceptor
+import com.ld5ehom.data.retrofit.FileService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -49,4 +50,12 @@ class RetrofitModule {
     fun provideUserService(retrofit: Retrofit): UserService {  // Creates and binds UserService using Retrofit for API requests
         return retrofit.create(UserService::class.java)
     }
+
+
+     // Binds the FileService to Retrofit for API calls. (파일 서비스를 Retrofit에 바인딩하여 API 호출 가능하게 함.)
+    @Provides
+    fun provideFileService(retrofit: Retrofit): FileService {
+        return retrofit.create(FileService::class.java)
+    }
+
 }
