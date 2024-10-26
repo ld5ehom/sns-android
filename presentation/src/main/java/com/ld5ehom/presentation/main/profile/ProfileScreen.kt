@@ -71,12 +71,26 @@ fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel()) {
         }
     }
 
+    // Sets up an activity result launcher for selecting a visual media (image) from the device gallery
+    // (기기 갤러리에서 이미지를 선택하기 위한 Activity Result 런처 설정)
+    val visualMediaPickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia(),  // Specifies the media type to pick (이미지 선택을 위한 계약)
+        onResult = viewModel::onImageChange  // Handles the result of the image selection (선택된 이미지를 처리)
+    )
+
+
     // Displays the user's Profiles screen with a profile image, username, and logout button
     // (프로필 이미지, 사용자 이름, 로그아웃 버튼을 포함한 설정 화면을 표시)
     ProfileScreen(
         username = state.username,
         profileImageUrl = state.profileImageUrl,
-        onImageChangeClick = {},
+        onImageChangeClick = {
+            visualMediaPickerLauncher.launch(
+                PickVisualMediaRequest(  // Limits the picker to image files only (이미지 파일만 선택할 수 있도록 제한)
+                    ActivityResultContracts.PickVisualMedia.ImageOnly
+                )
+            )
+        },
         onNameChangeClick = { usernameDialogVisible = true },
         onLogoutClick = viewModel::onLogoutClick
     )

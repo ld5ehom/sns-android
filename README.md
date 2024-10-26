@@ -238,7 +238,7 @@
       - UserService API Integration: With the interceptor handling the dynamic headers, the UserService interface now relies on Retrofit.create() for API calls, without needing manual @Headers declarations in the service methods.
   - **OkHttpClient Interceptor Integration** - [ebed6fa](https://github.com/ld5ehom/sns-android/commit/ebed6fad4d2d3f384eb9f8ad167d5cfebfd594bd)
     - Added CustomInterceptor to OkHttpClient using .addInterceptor() to dynamically inject headers, such as tokens, into every API request for handling authentication and preventing HTTP 401 errors.
-  - **Profile User Name Change Feature Update**
+  - **Profile User Name Change Feature Update** - [1953696](https://github.com/ld5ehom/sns-android/commit/19536963c4a2385016e4af3d3373cb47e8e5fa80)
     - presentation/profile/UsernameDialog
       - The UsernameDialog composable provides a dialog interface for users to update their profile name. It displays an input field pre-filled with the user's current username, and allows the user to modify it. This functionality is designed for efficient and interactive profile name management, with callbacks for handling changes and dismissing the dialog.
     - ProfileScreen Update  
@@ -259,6 +259,34 @@
       - API Communication: The data is serialized to ensure it's in the correct format for being transmitted to the backend through the patchMyPage API.
     - UserModule : Binding SetMyUserUseCase Implementation in UserModule
       - Dependency Injection with Dagger: This line of code in the UserModule binds the SetMyUserUseCaseImpl implementation to the SetMyUserUseCase interface using Dagger's @Binds annotation.
+  - **Profile User Image Change Feature Update**
+    - ProfileScreen Update : Image Change Feature Added
+      - Integrated an image picker using rememberLauncherForActivityResult to allow users to select an image from their device. When the user clicks to change the profile image, the media picker is launched, limited to image files only. The selected image is then handled in the ViewModel's onImageChange function to update the profile picture.
+    - ProfileViewModel Update : Profile Image Update Handling
+      - The onImageChange function updates the user's profile image by calling setProfileImageUseCase and reloading the user's profile to reflect the changes.
+    - SetProfileImageUseCase: Interface Definition and Domain Considerations
+      - SetProfileImageUseCase defines a contract for updating the user's profile image using a content URI.
+      - Since the Android Uri class is part of the Android framework and cannot be used in the domain layer, the content URI is passed as a String to maintain platform independence.
+    - SetProfileImageUseCaseImpl: Image Upload Logic 
+      - The image upload flow involves fetching user information, retrieving image details from the URI, uploading the image to the server, and updating the profile with the new image URL.
+    - Image Data Model : Serialization Dependency
+      - In Android's Clean Architecture, data resides at the core of the application, and the architecture's dependency rule allows the outer layers (such as data or presentation) to depend on the inner core (domain). Hence, the Image class is placed in the domain layer, and rather than creating separate DTOs or UI models for the data and presentation layers, the same model is reused across the entire app to simplify code structure.
+      - Kotlinx.serialization.json was added as a dependency to handle the serialization and deserialization of the Image data model into and from JSON. This enables seamless conversion of the Image data class for network communication and data persistence.
+    - UploadImageUseCaseImpl: Uploading Images via FileService 
+      - The UploadImageUseCaseImpl class is responsible for uploading images to the server using FileService. It converts the image into multipart form data, including the file name and image file itself, and returns the file path of the uploaded image.
+    - FileService : File Upload API
+      - This API defines an interface for uploading files using multipart form data, including the file name and the file itself.
+    - data/di/RetofitModule Update : FileService Binding
+      - This update adds functionality for binding the FileService interface to Retrofit, enabling API calls for file uploads.
+    - UriRequestBody : Handling Content Upload from URI
+      - UriRequestBody is a custom RequestBody class used for uploading files from a content URI. It retrieves the input stream from the URI and writes it to a BufferedSink, handling multipart file uploads.
+    - GetInputStreamUseCaseImpl: Fetching InputStream from Content URI
+      - The GetInputStreamUseCaseImpl class implements the logic to retrieve an InputStream from a content URI using the Android content resolver. It returns the result wrapped in a Result object.
+    - FileModule: Binding Use Cases to Interfaces
+      - This module binds the implementations of GetInputStreamUseCase, GetImageUseCase, and UploadImageUseCase to their respective interfaces. These bindings are installed in a SingletonComponent.
+    - GetImageUseCaseImpl: Retrieving Image Metadata from URI
+      - The GetImageUseCaseImpl class is responsible for retrieving metadata, such as the image name, size, and MIME type, from a content URI using the content resolver. It returns an Image object with the gathered information.
+
 
 
 
@@ -266,15 +294,15 @@
 - **Issues** : 
 - Develop functionality for users to create and submit new posts.
 
-### Task 5: Post List Screen**
+### Task 5: Post List Screen
 - **Issues** :
 - Build a screen that displays a list of posts in a feed or timeline format.
 
-### Task 6: Comments**
+### Task 6: Comments
 - **Issues** :
 - Implement a feature that allows users to view and add comments on posts.
 
-### Task 7: Advanced Features and Testing**
+### Task 7: Advanced Features and Testing
 - **Issues** :
 
 -----
