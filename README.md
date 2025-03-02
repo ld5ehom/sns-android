@@ -259,7 +259,7 @@
       - API Communication: The data is serialized to ensure it's in the correct format for being transmitted to the backend through the patchMyPage API.
     - UserModule : Binding SetMyUserUseCase Implementation in UserModule
       - Dependency Injection with Dagger: This line of code in the UserModule binds the SetMyUserUseCaseImpl implementation to the SetMyUserUseCase interface using Dagger's @Binds annotation.
-  - **Profile User Image Change Feature Update**
+  - **Profile User Image Change Feature Update** - [9330a93](https://github.com/ld5ehom/sns-android/commit/9330a937018ac0e3243d22840a7dd44612cb6611)
     - ProfileScreen Update : Image Change Feature Added
       - Integrated an image picker using rememberLauncherForActivityResult to allow users to select an image from their device. When the user clicks to change the profile image, the media picker is launched, limited to image files only. The selected image is then handled in the ViewModel's onImageChange function to update the profile picture.
     - ProfileViewModel Update : Profile Image Update Handling
@@ -287,12 +287,21 @@
     - GetImageUseCaseImpl: Retrieving Image Metadata from URI
       - The GetImageUseCaseImpl class is responsible for retrieving metadata, such as the image name, size, and MIME type, from a content URI using the content resolver. It returns an Image object with the gathered information.
 
-
-
-
+  
 ### Task 4: Post Creation
-- **Issues** : 
-- Develop functionality for users to create and submit new posts.
+- **Issues** : [task-4-post](https://github.com/ld5ehom/sns-android/tree/task-4-post)
+- **Details** :
+  - **Implement Photo Selection Functionality**
+    - Post Navigation System : Created PostNavHost to manage navigation between post-related screens.
+      - Defined routes in PostRoute for ImageSelectScreen and PostScreen, and implemented PostActivity to initialize the post creation flow.
+    - Photo Selection UI : Designed ImageSelectScreen to allow users to select images from their device. 
+      - Displayed selected image preview at the top, created a LazyVerticalGrid for image selection, and enabled selecting/deselecting images on tap.
+    - ViewModel Integration : Implemented PostViewModel using Orbit MVI to manage the image selection state. 
+      - Managed selectedImages and images in PostState, used GetImageListUseCase to fetch images, and added click handling for image selection. 
+    - MediaStore Query for Images : Implemented GetImageListUseCaseImpl to retrieve images from device storage.
+      - Queried MediaStore based on Android version, sorted images by most recent additions, and extracted necessary metadata (URI, name, size, MIME type).
+
+Queried MediaStore based on Android version, sorted images by most recent additions, and extracted necessary metadata (URI, name, size, MIME type).
 
 ### Task 5: Post List Screen
 - **Issues** :

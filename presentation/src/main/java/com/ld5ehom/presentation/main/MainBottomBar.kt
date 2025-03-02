@@ -1,6 +1,12 @@
 package com.ld5ehom.presentation.main
 
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
+import android.Manifest.permission.READ_MEDIA_IMAGES
+import android.Manifest.permission.READ_MEDIA_VIDEO
 import android.content.Intent
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -47,17 +53,31 @@ fun MainBottomBar(
         }
         ?: MainRoute.HOME  // Default route is set to Home
 
+    // Launcher for requesting multiple permissions
+    // 여러 개의 권한을 요청하기 위한 런처
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestMultiplePermissions(),
+    ) {
+        // Start PostActivity after permissions are granted
+        // 권한이 부여된 후 PostActivity 시작
+        context.startActivity(
+            Intent(context, PostActivity::class.java)
+        )
+    }
+
     // Calls the MainBottomBar composable to render the bottom bar
     // (메인 바텀 바를 렌더링하는 함수 호출)
     MainBottomBar(
         currentRoute = currentRoute,
         onItemClick = { newRoute ->
-            // If the new route is Post (formerly Writing), navigate to WritingActivity
-            // (새 경로가 포스트일 경우 WritingActivity로 이동)
+            // If the new route is Post (formerly Post), navigate to PostActivity
+            // (새 경로가 포스트일 경우 PostActivity로 이동)
             if (newRoute == MainRoute.POST) {
-                context.startActivity(
-                    Intent(context, PostActivity::class.java)
-                )
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    permissionLauncher.launch(arrayOf(READ_MEDIA_IMAGES, READ_MEDIA_VIDEO))
+                } else {
+                    permissionLauncher.launch(arrayOf(READ_EXTERNAL_STORAGE))
+                }
             } else {
                 // Navigates to the selected route and pops up to the start destination
                 // (선택한 경로로 이동하고 시작 화면으로 되돌아감)
